@@ -1,6 +1,6 @@
 {
   "_metadata": {
-    "generated_at": "2026-04-11 01:48:11",
+    "generated_at": "2026-04-11 02:17:38",
     "tmdb_language": "zh-TW",
     "version": "4.0",
     "description": "Keys are exact ANi parsed titles. Exact match only — no substring matching."
@@ -91,10 +91,6 @@
     },
     "朱音落語": {
       "tmdb_season": 1
-    },
-    "杖與劍的魔劍譚 Season 2": {
-      "tmdb_season": 2,
-      "episode_offset": -12
     },
     "楠木邸的神明庭院": {
       "tmdb_season": 1
