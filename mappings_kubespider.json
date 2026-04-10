@@ -12,7 +12,10 @@
       "season": 9,
       "reserve_keywords": "卡片戰鬥!! 先導者 Divinez"
     },
-    "參之章": 3,
+    "炎炎消防隊 參之章": {
+      "season": 3,
+      "reserve_keywords": "炎炎消防隊"
+    },
     "異世界悠閒農家 2": {
       "season": 2,
       "reserve_keywords": "異世界悠閒農家"

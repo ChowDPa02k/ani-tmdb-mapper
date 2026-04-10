@@ -911,36 +911,32 @@ def generate_kubespider_json(confirmed_mgr, output_path=None):
     """
     Generate mappings_kubespider.json from confirmed mappings.
 
-    KubeSpider format:
+    KubeSpider format — always uses full title + reserve_keywords:
     {
       "custom_season_mapping": {
-        "suffix_or_title": tmdb_season,          // simple
-        "full title": { "season": N, "reserve_keywords": "base" }  // complex
+        "FULL_TITLE": { "season": N, "reserve_keywords": "BASE_TITLE" },
+        ...
       },
       "season_episode_adjustment": {
-        "base_title": { "season_num": offset }
+        "BASE_TITLE": { "SEASON_NUM": OFFSET }
       }
     }
 
     Rules:
     - Only emit entries where mapping is non-trivial (S1 default skipped)
-    - custom_season_mapping keys must be UNIQUE suffixes to avoid collisions
-      - Unique suffix: "參之章", "Divinez 第五季「幻真星戰篇」" etc.
-      - Generic suffix: "第四季", "第二季" — these collide across anime
-      - For generic suffixes, use full title as key (complex format)
-    - For numeric suffixes ("2"), always use complex format with reserve_keywords
-    - season_episode_adjustment keys are base_title, values are {season: offset}
+    - custom_season_mapping: always complex format with full title as key
+    - season_episode_adjustment: base_title → {season: offset}
     """
     if output_path is None:
         output_path = str(SCRIPT_DIR / "mappings_kubespider.json")
 
-    # First pass: collect all suffixes to detect collisions
-    suffix_map = {}  # suffix -> list of (full_title, tmdb_season)
-    title_infos = []  # (full_title, info, base, keyword, ani_season)
+    custom = {}
+    adjustments = {}
 
     for full_title, info in confirmed_mgr.data.get("mappings", {}).items():
         if full_title.startswith("_"):
             continue
+
         tmdb_season = info.get("tmdb_season", 1)
         offset = info.get("episode_offset", 0)
         base_title, keyword, subtitle = extract_base_and_keyword(full_title)
@@ -958,47 +954,12 @@ def generate_kubespider_json(confirmed_mgr, output_path=None):
         if not needs_custom and not needs_adjustment:
             continue
 
-        title_infos.append((full_title, info, base_title, keyword, ani_season, needs_custom, needs_adjustment))
-
-        if keyword and needs_custom:
-            suffix = keyword.strip()
-            suffix_map.setdefault(suffix, []).append((full_title, tmdb_season))
-
-    # Detect generic (collision-prone) suffixes
-    generic_suffixes = {
-        s for s, entries in suffix_map.items()
-        if len(entries) > 1  # same suffix used by multiple anime
-    }
-    # Also treat standard season keywords as potentially generic
-    generic_patterns = re.compile(
-        r'^(第[一二三四五六七八九十\d]+季|Season\s*\d+|\d+(?:nd|rd|th)?\s*Season|第二季|第三季|第四季|第五季)$'
-    )
-
-    custom = {}
-    adjustments = {}
-
-    for full_title, info, base_title, keyword, ani_season, needs_custom, needs_adjustment in title_infos:
-        tmdb_season = info.get("tmdb_season", 1)
-        offset = info.get("episode_offset", 0)
-
-        # custom_season_mapping
-        if needs_custom and keyword:
-            suffix = keyword.strip()
-            # Numeric suffix (like "2") → always complex
-            if suffix.isdigit() and int(suffix) >= 2:
-                custom[full_title] = {
-                    "season": tmdb_season,
-                    "reserve_keywords": base_title,
-                }
-            # Generic suffix (collision) → use full title as complex key
-            elif suffix in generic_suffixes or generic_patterns.match(suffix):
-                custom[full_title] = {
-                    "season": tmdb_season,
-                    "reserve_keywords": base_title,
-                }
-            else:
-                # Unique suffix → simple mapping
-                custom[suffix] = tmdb_season
+        # custom_season_mapping: always complex format
+        if needs_custom:
+            custom[full_title] = {
+                "season": tmdb_season,
+                "reserve_keywords": base_title,
+            }
 
         # season_episode_adjustment
         if needs_adjustment:
