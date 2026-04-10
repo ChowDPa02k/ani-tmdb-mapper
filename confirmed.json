@@ -1,74 +1,86 @@
 {
-  "_description": "Confirmed ANi→TMDB mappings. Items here are skipped during LLM inference. Manually reviewed and verified.",
+  "_description": "Confirmed ANi→TMDB mappings. Keys are exact parsed ANi titles. Exact match only. Grows incrementally — only current and previously confirmed titles exist here.",
   "_updated": "2026-04-11",
-  "custom_season_mapping": {
+  "mappings": {
+    "Dr.STONE 新石紀 第四季": { "tmdb_season": 4 },
+    "GHOST CONCERT ： 失落之歌": { "tmdb_season": 1 },
+    "MAO 摩緒": { "tmdb_season": 1 },
     "Re：從零開始的異世界生活 第四季": {
-      "season": 1,
-      "reserve_keywords": "Re：從零開始的異世界生活",
-      "episode_offset": 66
+      "tmdb_season": 1,
+      "episode_offset": 66,
+      "_note": "TMDB只有1季85ep(全系列). ANi S4从ep67起"
     },
+    "上伊那牡丹，醉姿如百合": { "tmdb_season": 1 },
+    "主播女孩重度依賴": { "tmdb_season": 1 },
+    "你又被殺了呢，偵探大人": { "tmdb_season": 1 },
+    "假面騎士 ZEZTZ": { "tmdb_season": 1 },
+    "入間同學入魔了！第四季": { "tmdb_season": 4 },
+    "凍結地球": { "tmdb_season": 1 },
     "出租女友 第五季": {
-      "season": 1,
-      "reserve_keywords": "出租女友",
-      "episode_offset": 48
+      "tmdb_season": 1,
+      "episode_offset": 48,
+      "_note": "TMDB S01=50ep(全系列). ANi S5E01=TMDB E49"
     },
-    "炎炎消防隊 參之章": {
-      "season": 3,
-      "reserve_keywords": "炎炎消防隊"
+    "加油！中村同學！！": { "tmdb_season": 1 },
+    "卡片戰鬥!! 先導者 Divinez 第五季「幻真星戰篇」": {
+      "tmdb_season": 9,
+      "_note": "各季独立编号"
     },
-    "鑽石王牌 act2 第二季": {
-      "season": 3,
-      "reserve_keywords": "鑽石王牌 act2"
-    }
-  },
-  "season_episode_adjustment": {
-    "異獸魔都": {
-      "2": -12
+    "吞噬魔物的冒險者": { "tmdb_season": 1 },
+    "大江戶烈火殺手 - 鳳凰傳說": { "tmdb_season": 1 },
+    "大賢者里德爾的時間逆行": { "tmdb_season": 1 },
+    "女神「異世界轉生想成為什麼」我「勇者的肋骨」": { "tmdb_season": 1 },
+    "女騎士成為蠻族新娘": { "tmdb_season": 1 },
+    "婚姻劇毒": { "tmdb_season": 1 },
+    "容易對付的惡魔大人": { "tmdb_season": 1 },
+    "左撇子艾倫": { "tmdb_season": 1 },
+    "庫吉馬唱歌的家": { "tmdb_season": 1 },
+    "從前從前有隻貓！世界喵童話": { "tmdb_season": 1 },
+    "成為悲劇元兇的最強異端，最後頭目女王為了人民犧牲奉獻 第二季": { "tmdb_season": 2 },
+    "我和班上第二可愛的女生成為朋友": { "tmdb_season": 1 },
+    "我回來了，他又來打擾了！": { "tmdb_season": 1 },
+    "拉拉熊": { "tmdb_season": 1 },
+    "春夏秋冬代行者 春之舞": { "tmdb_season": 1 },
+    "木頭風紀委員和迷你裙 JK 的故事": { "tmdb_season": 1 },
+    "朱音落語": { "tmdb_season": 1 },
+    "杖與劍的魔劍譚 Season 2": {
+      "tmdb_season": 2,
+      "episode_offset": -12,
+      "_note": "S2连续编号"
     },
-    "關於我轉生變成史萊姆這檔事": {
-      "2": -24,
-      "3": -48,
-      "4": -72
+    "楠木邸的神明庭院": { "tmdb_season": 1 },
+    "歡迎來到實力至上主義的教室 第四季 2年級篇 第一學期": { "tmdb_season": 4 },
+    "淡島百景": { "tmdb_season": 1 },
+    "淫獄團地": { "tmdb_season": 1 },
+    "溜掉的大魚比不上自己釣到的魚": { "tmdb_season": 1 },
+    "炎炎消防隊 參之章": { "tmdb_season": 3 },
+    "無尾熊繪日記": { "tmdb_season": 1 },
+    "異世界悠閒農家 2": { "tmdb_season": 2 },
+    "異獸魔都 第二季": {
+      "tmdb_season": 2,
+      "episode_offset": -12,
+      "_note": "S2连续编号 ep13-16"
     },
-    "杖與劍的魔劍譚": {
-      "2": -12
+    "百鬼夜行抄": { "tmdb_season": 1 },
+    "神之雫": { "tmdb_season": 1 },
+    "終末起點 第二季": { "tmdb_season": 2 },
+    "茉莉花同學的好感度壞得很徹底": { "tmdb_season": 1 },
+    "複製品的我也會談戀愛": { "tmdb_season": 1 },
+    "輪迴的花瓣": { "tmdb_season": 1 },
+    "轉生惡女的黑歷史": {
+      "tmdb_season": 1,
+      "_note": "TMDB S01=12ep, ANi ep13可能是数据滞后"
     },
-    "葬送的芙莉蓮": {
-      "2": -28
+    "鑽石王牌 act2 第二季": { "tmdb_season": 3 },
+    "關於我在無意間被隔壁的天使變成廢柴這件事 2": { "tmdb_season": 2 },
+    "關於我轉生變成史萊姆這檔事 第四季": {
+      "tmdb_season": 4,
+      "episode_offset": -72,
+      "_note": "S4连续编号. S2=-24,S3=-48,S4=-72"
     },
-    "噗妮露是可愛史萊姆": {
-      "2": -12
-    },
-    "咒術迴戰": {
-      "2": -24
-    },
-    "卡片戰鬥!! 先導者 overdress": {
-      "2": -12
-    },
-    "藍色監獄": {
-      "2": -24
-    },
-    "小市民系列": {
-      "2": -10
-    },
-    "膽大黨": {
-      "2": -12
-    },
-    "徹夜之歌": {
-      "2": -13
-    },
-    "戀上換裝娃娃": {
-      "2": -12
-    },
-    "SPY×FAMILY 間諜家家酒": {
-      "2": -12,
-      "3": -25
-    },
-    "公主殿下，「拷問」的時間到了": {
-      "2": -12
-    },
-    "異世界悠閒農家": {
-      "2": -12
-    }
+    "霧尾粉絲後援會": { "tmdb_season": 1 },
+    "非人學生與厭世教師": { "tmdb_season": 1 },
+    "魔法姊妹露露特莉莉": { "tmdb_season": 1 },
+    "黃泉使者": { "tmdb_season": 1 }
   }
 }

@@ -536,6 +536,12 @@ class ConfirmedMappingManager:
     """
     Manages confirmed.json — a record of titles that have been
     verified by human/LLM review and should be skipped in future runs.
+    
+    Design: Keys in 'mappings' are exact ANi parsed titles (the part
+    between [ANi] and the episode number). Matching is EXACT only —
+    no substring/fuzzy matching. This prevents S1 confirmed entries
+    from matching future S2 titles (e.g., "非人學生與厭世教師" will
+    NOT match "非人學生與厭世教師 第二季").
     """
 
     def __init__(self, path=None):
@@ -548,57 +554,27 @@ class ConfirmedMappingManager:
         if os.path.exists(self.path):
             with open(self.path, 'r', encoding='utf-8') as f:
                 return json.load(f)
-        return {"custom_season_mapping": {}, "season_episode_adjustment": {}}
+        return {"mappings": {}}
 
     def save(self):
         with open(self.path, 'w', encoding='utf-8') as f:
             json.dump(self.data, f, ensure_ascii=False, indent=2)
         print(f"  💾 Confirmed mappings saved: {self.path}")
 
-    def is_confirmed(self, title):
-        """Check if a title (or its base) already has confirmed mapping"""
-        # Check custom_season_mapping (exact key match or substring)
-        for key in self.data.get("custom_season_mapping", {}):
-            if key in title or title in key:
-                return True
-        # Check season_episode_adjustment
-        for key in self.data.get("season_episode_adjustment", {}):
-            if key in title or title in key:
-                return True
-        return False
+    def is_confirmed(self, full_title):
+        """Exact match only. No substring/fuzzy matching."""
+        mappings = self.data.get("mappings", {})
+        return full_title in mappings and not full_title.startswith("_")
 
-    def get_mapping_for(self, title, base_title=None):
-        """
-        Get confirmed mapping for a title.
-        Returns dict with mapping info, or None.
-        """
-        # Check custom_season_mapping first
-        for key, mapping in self.data.get("custom_season_mapping", {}).items():
-            if key in title or title in key:
-                return {"type": "custom_season", "key": key, **mapping}
+    def get_mapping_for(self, full_title):
+        """Get mapping by exact title match. Returns dict or None."""
+        if full_title.startswith("_"):
+            return None
+        return self.data.get("mappings", {}).get(full_title)
 
-        # Check season_episode_adjustment
-        check_titles = [title]
-        if base_title:
-            check_titles.append(base_title)
-        for check in check_titles:
-            for key, seasons in self.data.get("season_episode_adjustment", {}).items():
-                if key in check or check in key:
-                    return {"type": "episode_adjustment", "key": key, "seasons": seasons}
-
-        return None
-
-    def add_custom_season(self, key, season, reserve_keywords=None, episode_offset=0):
-        self.data.setdefault("custom_season_mapping", {})[key] = {
-            "season": season,
-            "reserve_keywords": reserve_keywords or key,
-            "episode_offset": episode_offset,
-        }
-        self.save()
-
-    def add_episode_adjustment(self, base_title, season_offsets):
-        """season_offsets: {season_num: offset}"""
-        self.data.setdefault("season_episode_adjustment", {})[base_title] = season_offsets
+    def add_mapping(self, full_title, mapping_info):
+        """Add a confirmed mapping. mapping_info: {tmdb_season, episode_offset?, _note?}"""
+        self.data.setdefault("mappings", {})[full_title] = mapping_info
         self.save()
 
 
@@ -874,19 +850,19 @@ def format_llm_prompt(context_items):
     parts.append("")
     parts.append("## Output Format (JSON)")
     parts.append("")
+    parts.append("Each key is the EXACT ANi parsed title (full title between [ANi] and episode number).")
+    parts.append("Matching is exact-only — S1 entries will NOT match S2 titles.")
+    parts.append("")
     parts.append("```json")
     parts.append('{')
-    parts.append('  "custom_season_mapping": {')
-    parts.append('    "ANi title keyword": {')
-    parts.append('      "season": <TMDB season number>,')
-    parts.append('      "reserve_keywords": "<clean title for filename>",')
-    parts.append('      "episode_offset": <offset, ANi_ep + offset = TMDB_ep>')
-    parts.append('    }')
+    parts.append('  "EXACT_ANi_TITLE": {')
+    parts.append('    "tmdb_season": <TMDB season number>,')
+    parts.append('    "episode_offset": <offset or omit if 0, ANi_ep + offset = TMDB_ep>,')
+    parts.append('    "_note": "explanation"')
     parts.append('  },')
-    parts.append('  "season_episode_adjustment": {')
-    parts.append('    "anime base title": {')
-    parts.append('      "<season_num>": <offset>')
-    parts.append('    }')
+    parts.append('  "EXACT_ANi_TITLE Season 2": {')
+    parts.append('    "tmdb_season": <TMDB season number>,')
+    parts.append('    "episode_offset": <offset if continuous numbering>')
     parts.append('  }')
     parts.append('}')
     parts.append('```')
@@ -897,29 +873,30 @@ def format_llm_prompt(context_items):
 # ============================================================
 # Mapping.json Output
 # ============================================================
-def generate_mapping_json(confirmed_mgr, new_mappings=None, output_path=None):
+def generate_mapping_json(confirmed_mgr, output_path=None):
     """
-    Generate the final mapping.json by merging confirmed + new mappings.
+    Generate the final mapping.json from confirmed mappings.
+    Strips internal fields (_note, _*) for clean output.
     """
     if output_path is None:
         output_path = str(SCRIPT_DIR / "mapping.json")
+
+    clean_mappings = {}
+    for title, info in confirmed_mgr.data.get("mappings", {}).items():
+        if title.startswith("_"):
+            continue
+        clean = {k: v for k, v in info.items() if not k.startswith("_")}
+        clean_mappings[title] = clean
 
     result = {
         "_metadata": {
             "generated_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
             "tmdb_language": TMDB_LANG,
-            "version": "3.0",
+            "version": "4.0",
+            "description": "Keys are exact ANi parsed titles. Exact match only — no substring matching.",
         },
-        "custom_season_mapping": confirmed_mgr.data.get("custom_season_mapping", {}),
-        "season_episode_adjustment": confirmed_mgr.data.get("season_episode_adjustment", {}),
+        "mappings": clean_mappings,
     }
-
-    # Merge new mappings if provided
-    if new_mappings:
-        if "custom_season_mapping" in new_mappings:
-            result["custom_season_mapping"].update(new_mappings["custom_season_mapping"])
-        if "season_episode_adjustment" in new_mappings:
-            result["season_episode_adjustment"].update(new_mappings["season_episode_adjustment"])
 
     with open(output_path, 'w', encoding='utf-8') as f:
         json.dump(result, f, ensure_ascii=False, indent=2)
