@@ -1,0 +1,74 @@
+{
+  "_description": "Confirmed ANi→TMDB mappings. Items here are skipped during LLM inference. Manually reviewed and verified.",
+  "_updated": "2026-04-11",
+  "custom_season_mapping": {
+    "Re：從零開始的異世界生活 第四季": {
+      "season": 1,
+      "reserve_keywords": "Re：從零開始的異世界生活",
+      "episode_offset": 66
+    },
+    "出租女友 第五季": {
+      "season": 1,
+      "reserve_keywords": "出租女友",
+      "episode_offset": 48
+    },
+    "炎炎消防隊 參之章": {
+      "season": 3,
+      "reserve_keywords": "炎炎消防隊"
+    },
+    "鑽石王牌 act2 第二季": {
+      "season": 3,
+      "reserve_keywords": "鑽石王牌 act2"
+    }
+  },
+  "season_episode_adjustment": {
+    "異獸魔都": {
+      "2": -12
+    },
+    "關於我轉生變成史萊姆這檔事": {
+      "2": -24,
+      "3": -48,
+      "4": -72
+    },
+    "杖與劍的魔劍譚": {
+      "2": -12
+    },
+    "葬送的芙莉蓮": {
+      "2": -28
+    },
+    "噗妮露是可愛史萊姆": {
+      "2": -12
+    },
+    "咒術迴戰": {
+      "2": -24
+    },
+    "卡片戰鬥!! 先導者 overdress": {
+      "2": -12
+    },
+    "藍色監獄": {
+      "2": -24
+    },
+    "小市民系列": {
+      "2": -10
+    },
+    "膽大黨": {
+      "2": -12
+    },
+    "徹夜之歌": {
+      "2": -13
+    },
+    "戀上換裝娃娃": {
+      "2": -12
+    },
+    "SPY×FAMILY 間諜家家酒": {
+      "2": -12,
+      "3": -25
+    },
+    "公主殿下，「拷問」的時間到了": {
+      "2": -12
+    },
+    "異世界悠閒農家": {
+      "2": -12
+    }
+  }
+}

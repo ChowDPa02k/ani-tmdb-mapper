@@ -1,0 +1,14 @@
+# Environment & secrets
+.env
+
+# LLM working files (regenerated each run)
+*_context.json
+*_prompt.md
+*_dry.json
+
+# Python cache
+__pycache__/
+*.pyc
+
+# OS
+.DS_Store
