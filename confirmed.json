@@ -11,7 +11,6 @@
       "_note": "TMDB只有1季85ep(全系列). ANi S4从ep67起"
     },
     "上伊那牡丹，醉姿如百合": { "tmdb_season": 1 },
-    "主播女孩重度依賴": { "tmdb_season": 1 },
     "你又被殺了呢，偵探大人": { "tmdb_season": 1 },
     "假面騎士 ZEZTZ": { "tmdb_season": 1 },
     "入間同學入魔了！第四季": { "tmdb_season": 4 },
@@ -31,7 +30,6 @@
     "大賢者里德爾的時間逆行": { "tmdb_season": 1 },
     "女神「異世界轉生想成為什麼」我「勇者的肋骨」": { "tmdb_season": 1 },
     "女騎士成為蠻族新娘": { "tmdb_season": 1 },
-    "婚姻劇毒": { "tmdb_season": 1 },
     "容易對付的惡魔大人": { "tmdb_season": 1 },
     "左撇子艾倫": { "tmdb_season": 1 },
     "庫吉馬唱歌的家": { "tmdb_season": 1 },
@@ -50,17 +48,10 @@
     },
     "楠木邸的神明庭院": { "tmdb_season": 1 },
     "歡迎來到實力至上主義的教室 第四季 2年級篇 第一學期": { "tmdb_season": 4 },
-    "淡島百景": { "tmdb_season": 1 },
-    "淫獄團地": { "tmdb_season": 1 },
     "溜掉的大魚比不上自己釣到的魚": { "tmdb_season": 1 },
     "炎炎消防隊 參之章": { "tmdb_season": 3 },
     "無尾熊繪日記": { "tmdb_season": 1 },
     "異世界悠閒農家 2": { "tmdb_season": 2 },
-    "異獸魔都 第二季": {
-      "tmdb_season": 2,
-      "episode_offset": -12,
-      "_note": "S2连续编号 ep13-16"
-    },
     "百鬼夜行抄": { "tmdb_season": 1 },
     "神之雫": { "tmdb_season": 1 },
     "終末起點 第二季": { "tmdb_season": 2 },
@@ -81,6 +72,15 @@
     "霧尾粉絲後援會": { "tmdb_season": 1 },
     "非人學生與厭世教師": { "tmdb_season": 1 },
     "魔法姊妹露露特莉莉": { "tmdb_season": 1 },
-    "黃泉使者": { "tmdb_season": 1 }
+    "黃泉使者": { "tmdb_season": 1 },
+    "主播女孩重度依賴": { "tmdb_season": 1 },
+    "婚姻劇毒": { "tmdb_season": 1 },
+    "淡島百景": { "tmdb_season": 1 },
+    "淫獄團地": { "tmdb_season": 1 },
+    "異獸魔都 第二季": {
+      "tmdb_season": 2,
+      "episode_offset": -12,
+      "_note": "S2连续编号，ANi ep13=TMDB S02E01"
+    }
   }
 }

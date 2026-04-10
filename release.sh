@@ -1,6 +1,6 @@
 #!/bin/bash
 # release.sh - Version, commit, tag, push, and release mapping.json
-# Version format: YYYY.MM.NNN (NNN resets each month, starts at 001)
+# Version format: YYYY.SS.NNN where SS = ANi season (1=冬, 4=春, 7=夏, 10=秋), NNN resets each season
 #
 # Usage:
 #   ./release.sh              # Auto-detect changes, release if any
@@ -31,8 +31,16 @@ else
 fi
 
 # --- Compute next version ---
-YM=$(date +%Y.%m)
-LATEST=$(git tag --list "${YM}.*" --sort=-version:refname 2>/dev/null | head -1)
+# ANi season: 1月=冬(1), 4月=春(4), 7月=夏(7), 10月=秋(10)
+MONTH=$(date +%m | sed 's/^0//')
+YEAR=$(date +%Y)
+if [ "$MONTH" -le 3 ]; then SEASON=1
+elif [ "$MONTH" -le 6 ]; then SEASON=4
+elif [ "$MONTH" -le 9 ]; then SEASON=7
+else SEASON=10
+fi
+YS="${YEAR}.${SEASON}"
+LATEST=$(git tag --list "${YS}.*" --sort=-version:refname 2>/dev/null | head -1)
 
 if [ -z "$LATEST" ]; then
     NNN=1
@@ -42,7 +50,7 @@ else
     LAST_NNN=$((10#$LAST_NNN))
     NNN=$((LAST_NNN + 1))
 fi
-NEW_TAG="${YM}.$(printf '%03d' $NNN)"
+NEW_TAG="${YS}.$(printf '%03d' $NNN)"
 
 echo "📦 New release: $NEW_TAG (changed=$CHANGED)"
 

@@ -1,6 +1,6 @@
 {
   "_metadata": {
-    "generated_at": "2026-04-11 01:41:10",
+    "generated_at": "2026-04-11 01:48:11",
     "tmdb_language": "zh-TW",
     "version": "4.0",
     "description": "Keys are exact ANi parsed titles. Exact match only — no substring matching."
@@ -20,9 +20,6 @@
       "episode_offset": 66
     },
     "上伊那牡丹，醉姿如百合": {
-      "tmdb_season": 1
-    },
-    "主播女孩重度依賴": {
       "tmdb_season": 1
     },
     "你又被殺了呢，偵探大人": {
@@ -60,9 +57,6 @@
       "tmdb_season": 1
     },
     "女騎士成為蠻族新娘": {
-      "tmdb_season": 1
-    },
-    "婚姻劇毒": {
       "tmdb_season": 1
     },
     "容易對付的惡魔大人": {
@@ -108,12 +102,6 @@
     "歡迎來到實力至上主義的教室 第四季 2年級篇 第一學期": {
       "tmdb_season": 4
     },
-    "淡島百景": {
-      "tmdb_season": 1
-    },
-    "淫獄團地": {
-      "tmdb_season": 1
-    },
     "溜掉的大魚比不上自己釣到的魚": {
       "tmdb_season": 1
     },
@@ -125,10 +113,6 @@
     },
     "異世界悠閒農家 2": {
       "tmdb_season": 2
-    },
-    "異獸魔都 第二季": {
-      "tmdb_season": 2,
-      "episode_offset": -12
     },
     "百鬼夜行抄": {
       "tmdb_season": 1
@@ -172,6 +156,22 @@
     },
     "黃泉使者": {
       "tmdb_season": 1
+    },
+    "主播女孩重度依賴": {
+      "tmdb_season": 1
+    },
+    "婚姻劇毒": {
+      "tmdb_season": 1
+    },
+    "淡島百景": {
+      "tmdb_season": 1
+    },
+    "淫獄團地": {
+      "tmdb_season": 1
+    },
+    "異獸魔都 第二季": {
+      "tmdb_season": 2,
+      "episode_offset": -12
     }
   }
 }
