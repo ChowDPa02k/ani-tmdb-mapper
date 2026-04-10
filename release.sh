@@ -21,7 +21,7 @@ done
 
 # --- Check for changes ---
 CHANGED=false
-if git diff --quiet HEAD -- confirmed.json mapping.json ani_tmdb_mapper.py release.sh 2>/dev/null; then
+if git diff --quiet HEAD -- confirmed.json mapping.json mappings_kubespider.json ani_tmdb_mapper.py release.sh 2>/dev/null; then
     if [ "$FORCE" = false ]; then
         echo "ℹ️  No changes to release. Use --force to override."
         exit 0
@@ -60,7 +60,7 @@ if [ "$DRY_RUN" = true ]; then
     exit 0
 fi
 
-git add confirmed.json mapping.json ani_tmdb_mapper.py release.sh
+git add confirmed.json mapping.json mappings_kubespider.json ani_tmdb_mapper.py release.sh
 if [ "$CHANGED" = true ]; then
     git commit -m "release ${NEW_TAG}: update mappings"
 else

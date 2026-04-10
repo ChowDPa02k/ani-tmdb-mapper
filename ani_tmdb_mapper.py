@@ -905,6 +905,120 @@ def generate_mapping_json(confirmed_mgr, output_path=None):
 
 
 # ============================================================
+# KubeSpider Format Output
+# ============================================================
+def generate_kubespider_json(confirmed_mgr, output_path=None):
+    """
+    Generate mappings_kubespider.json from confirmed mappings.
+
+    KubeSpider format:
+    {
+      "custom_season_mapping": {
+        "suffix_or_title": tmdb_season,          // simple
+        "full title": { "season": N, "reserve_keywords": "base" }  // complex
+      },
+      "season_episode_adjustment": {
+        "base_title": { "season_num": offset }
+      }
+    }
+
+    Rules:
+    - Only emit entries where mapping is non-trivial (S1 default skipped)
+    - custom_season_mapping keys must be UNIQUE suffixes to avoid collisions
+      - Unique suffix: "參之章", "Divinez 第五季「幻真星戰篇」" etc.
+      - Generic suffix: "第四季", "第二季" — these collide across anime
+      - For generic suffixes, use full title as key (complex format)
+    - For numeric suffixes ("2"), always use complex format with reserve_keywords
+    - season_episode_adjustment keys are base_title, values are {season: offset}
+    """
+    if output_path is None:
+        output_path = str(SCRIPT_DIR / "mappings_kubespider.json")
+
+    # First pass: collect all suffixes to detect collisions
+    suffix_map = {}  # suffix -> list of (full_title, tmdb_season)
+    title_infos = []  # (full_title, info, base, keyword, ani_season)
+
+    for full_title, info in confirmed_mgr.data.get("mappings", {}).items():
+        if full_title.startswith("_"):
+            continue
+        tmdb_season = info.get("tmdb_season", 1)
+        offset = info.get("episode_offset", 0)
+        base_title, keyword, subtitle = extract_base_and_keyword(full_title)
+        ani_season = detect_season_number(full_title)
+
+        needs_custom = ani_season != tmdb_season
+        # Numeric suffix always needs custom mapping (KubeSpider can't detect "Title 2" = S02)
+        if keyword and keyword.isdigit() and int(keyword) >= 2:
+            needs_custom = True
+        # Non-standard suffix (參之章, etc.) always needs mapping
+        if keyword and not re.match(r'^(第[一二三四五六七八九十\d]+季|Season\s+\d+|\d+)$', keyword):
+            needs_custom = True
+        needs_adjustment = offset != 0
+
+        if not needs_custom and not needs_adjustment:
+            continue
+
+        title_infos.append((full_title, info, base_title, keyword, ani_season, needs_custom, needs_adjustment))
+
+        if keyword and needs_custom:
+            suffix = keyword.strip()
+            suffix_map.setdefault(suffix, []).append((full_title, tmdb_season))
+
+    # Detect generic (collision-prone) suffixes
+    generic_suffixes = {
+        s for s, entries in suffix_map.items()
+        if len(entries) > 1  # same suffix used by multiple anime
+    }
+    # Also treat standard season keywords as potentially generic
+    generic_patterns = re.compile(
+        r'^(第[一二三四五六七八九十\d]+季|Season\s*\d+|\d+(?:nd|rd|th)?\s*Season|第二季|第三季|第四季|第五季)$'
+    )
+
+    custom = {}
+    adjustments = {}
+
+    for full_title, info, base_title, keyword, ani_season, needs_custom, needs_adjustment in title_infos:
+        tmdb_season = info.get("tmdb_season", 1)
+        offset = info.get("episode_offset", 0)
+
+        # custom_season_mapping
+        if needs_custom and keyword:
+            suffix = keyword.strip()
+            # Numeric suffix (like "2") → always complex
+            if suffix.isdigit() and int(suffix) >= 2:
+                custom[full_title] = {
+                    "season": tmdb_season,
+                    "reserve_keywords": base_title,
+                }
+            # Generic suffix (collision) → use full title as complex key
+            elif suffix in generic_suffixes or generic_patterns.match(suffix):
+                custom[full_title] = {
+                    "season": tmdb_season,
+                    "reserve_keywords": base_title,
+                }
+            else:
+                # Unique suffix → simple mapping
+                custom[suffix] = tmdb_season
+
+        # season_episode_adjustment
+        if needs_adjustment:
+            if base_title not in adjustments:
+                adjustments[base_title] = {}
+            adjustments[base_title][str(ani_season)] = offset
+
+    result = {}
+    if custom:
+        result["custom_season_mapping"] = custom
+    if adjustments:
+        result["season_episode_adjustment"] = adjustments
+
+    with open(output_path, 'w', encoding='utf-8') as f:
+        json.dump(result, f, ensure_ascii=False, indent=2)
+    print(f"✅ mappings_kubespider.json written: {output_path}")
+    return result
+
+
+# ============================================================
 # Main
 # ============================================================
 def main():
@@ -978,6 +1092,7 @@ def main():
     if not context_items:
         print("\n🎉 All titles are already mapped! No new items to process.")
         generate_mapping_json(confirmed_mgr, output_path=args.output)
+        generate_kubespider_json(confirmed_mgr, output_path=str(SCRIPT_DIR / "mappings_kubespider.json"))
         return
 
     print(f"\n📋 {len(context_items)} unmapped items found")
@@ -995,8 +1110,9 @@ def main():
         json.dump(context_items, f, ensure_ascii=False, indent=2, default=str)
     print(f"  📄 Context data: {ctx_path}")
 
-    # 6. Generate mapping.json with current confirmed data
+    # 6. Generate mapping.json and kubespider.json with current confirmed data
     generate_mapping_json(confirmed_mgr, output_path=args.output)
+    generate_kubespider_json(confirmed_mgr, output_path=str(SCRIPT_DIR / "mappings_kubespider.json"))
 
     print(f"\n💡 Next steps:")
     print(f"   1. Review {prompt_path}")
