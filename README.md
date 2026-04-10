@@ -96,6 +96,10 @@ TMDB API Key 申请: https://www.themoviedb.org/settings/api
 - 更旧的目录使用缓存，减少服务器压力和反爬虫风险
 - `--refresh-cache` 强制全量刷新
 
+## 实战案例
+
+- [KubeSpider + ANi 源提供者配置指南](https://github.com/ChowDPa02k/kubespider/blob/main/docs/zh/user_guide/ani_source_provider/README.md) — 将 mapping.json 集成到 KubeSpider 自动追番流程的完整教程
+
 ## License
 
 MIT
