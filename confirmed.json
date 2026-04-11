@@ -77,6 +77,14 @@
       "tmdb_season": 2,
       "episode_offset": -12,
       "_note": "S2连续编号，ANi ep13=TMDB S02E01"
-    }
+    },
+    "一疊間漫畫咖啡廳日常": { "tmdb_season": 1 },
+    "勇者之渣": { "tmdb_season": 1 },
+    "小書痴的下剋上 為了成為圖書管理員不擇手段！領主的養女": {
+      "tmdb_season": 2,
+      "_note": "TMDB S1=36ep(原系列合并), 領主的養女为TMDB S2"
+    },
+    "弱弱老師": { "tmdb_season": 1 },
+    "殺手青春": { "tmdb_season": 1 }
   }
 }
