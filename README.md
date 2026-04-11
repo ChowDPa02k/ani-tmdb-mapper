@@ -11,6 +11,10 @@ ANi 和 TMDB 对同一部动画的「季/集」划分经常不一致：
 - **X.5 集**: ANi 的 ep12.5 应映射到 TMDB 的特别篇 (S00)
 - **中间季缺失**: ANi 可能未获得某些季的授权（正常现象）
 
+## 接入方式
+
+https://cdn.jsdelivr.net/gh/ChowDPa02k/ani-tmdb-mapper@main/mapping.json
+
 ## 工作流程
 
 ```
