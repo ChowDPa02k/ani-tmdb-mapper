@@ -1,6 +1,6 @@
 {
   "_description": "Confirmed ANi→TMDB mappings. Keys are exact parsed ANi titles. Exact match only. Grows incrementally — only current and previously confirmed titles exist here.",
-  "_updated": "2026-04-11",
+  "_updated": "2026-04-13",
   "mappings": {
     "Dr.STONE 新石紀 第四季": {
       "tmdb_id": 86031,
@@ -243,6 +243,26 @@
     },
     "殺手青春": {
       "tmdb_id": 300131,
+      "tmdb_season": 1
+    },
+    "夜櫻家大作戰 第二季": {
+      "tmdb_id": 216467,
+      "tmdb_season": 2,
+      "episode_offset": -27,
+      "_note": "ANi S2连续编号从ep28起，TMDB S02E01"
+    },
+    "女僕小姐的貪吃日常": {
+      "tmdb_id": 299134,
+      "tmdb_season": 1
+    },
+    "杖與劍的魔劍譚 Season 2": {
+      "tmdb_id": 245842,
+      "tmdb_season": 2,
+      "episode_offset": -12,
+      "_note": "S2连续编号，ANi ep13=TMDB S02E01"
+    },
+    "黑貓與魔女的教室": {
+      "tmdb_id": 297557,
       "tmdb_season": 1
     }
   }
