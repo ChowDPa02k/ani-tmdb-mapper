@@ -2,89 +2,248 @@
   "_description": "Confirmed ANi→TMDB mappings. Keys are exact parsed ANi titles. Exact match only. Grows incrementally — only current and previously confirmed titles exist here.",
   "_updated": "2026-04-11",
   "mappings": {
-    "Dr.STONE 新石紀 第四季": { "tmdb_season": 4 },
-    "GHOST CONCERT ： 失落之歌": { "tmdb_season": 1 },
-    "MAO 摩緒": { "tmdb_season": 1 },
+    "Dr.STONE 新石紀 第四季": {
+      "tmdb_id": 86031,
+      "tmdb_season": 4
+    },
+    "GHOST CONCERT ： 失落之歌": {
+      "tmdb_id": 303796,
+      "tmdb_season": 1
+    },
+    "MAO 摩緒": {
+      "tmdb_id": 295999,
+      "tmdb_season": 1
+    },
     "Re：從零開始的異世界生活 第四季": {
+      "tmdb_id": 65942,
       "tmdb_season": 1,
       "episode_offset": 66,
       "_note": "TMDB只有1季85ep(全系列). ANi S4从ep67起"
     },
-    "上伊那牡丹，醉姿如百合": { "tmdb_season": 1 },
-    "你又被殺了呢，偵探大人": { "tmdb_season": 1 },
-    "假面騎士 ZEZTZ": { "tmdb_season": 1 },
-    "入間同學入魔了！第四季": { "tmdb_season": 4 },
-    "凍結地球": { "tmdb_season": 1 },
+    "上伊那牡丹，醉姿如百合": {
+      "tmdb_id": 283905,
+      "tmdb_season": 1
+    },
+    "你又被殺了呢，偵探大人": {
+      "tmdb_id": 312293,
+      "tmdb_season": 1
+    },
+    "假面騎士 ZEZTZ": {
+      "tmdb_id": 295434,
+      "tmdb_season": 1
+    },
+    "入間同學入魔了！第四季": {
+      "tmdb_id": 91801,
+      "tmdb_season": 4
+    },
+    "凍結地球": {
+      "tmdb_id": 296232,
+      "tmdb_season": 1
+    },
     "出租女友 第五季": {
+      "tmdb_id": 96316,
       "tmdb_season": 1,
       "episode_offset": 48,
       "_note": "TMDB S01=50ep(全系列). ANi S5E01=TMDB E49"
     },
-    "加油！中村同學！！": { "tmdb_season": 1 },
+    "加油！中村同學！！": {
+      "tmdb_id": 274622,
+      "tmdb_season": 1
+    },
     "卡片戰鬥!! 先導者 Divinez 第五季「幻真星戰篇」": {
+      "tmdb_id": 35442,
       "tmdb_season": 9,
       "_note": "各季独立编号"
     },
-    "吞噬魔物的冒險者": { "tmdb_season": 1 },
-    "大江戶烈火殺手 - 鳳凰傳說": { "tmdb_season": 1 },
-    "大賢者里德爾的時間逆行": { "tmdb_season": 1 },
-    "女神「異世界轉生想成為什麼」我「勇者的肋骨」": { "tmdb_season": 1 },
-    "女騎士成為蠻族新娘": { "tmdb_season": 1 },
-    "容易對付的惡魔大人": { "tmdb_season": 1 },
-    "左撇子艾倫": { "tmdb_season": 1 },
-    "庫吉馬唱歌的家": { "tmdb_season": 1 },
-    "從前從前有隻貓！世界喵童話": { "tmdb_season": 1 },
-    "成為悲劇元兇的最強異端，最後頭目女王為了人民犧牲奉獻 第二季": { "tmdb_season": 2 },
-    "我和班上第二可愛的女生成為朋友": { "tmdb_season": 1 },
-    "我回來了，他又來打擾了！": { "tmdb_season": 1 },
-    "拉拉熊": { "tmdb_season": 1 },
-    "春夏秋冬代行者 春之舞": { "tmdb_season": 1 },
-    "木頭風紀委員和迷你裙 JK 的故事": { "tmdb_season": 1 },
-    "朱音落語": { "tmdb_season": 1 },
-
-    "楠木邸的神明庭院": { "tmdb_season": 1 },
-    "歡迎來到實力至上主義的教室 第四季 2年級篇 第一學期": { "tmdb_season": 4 },
-    "溜掉的大魚比不上自己釣到的魚": { "tmdb_season": 1 },
-    "炎炎消防隊 參之章": { "tmdb_season": 3 },
-    "無尾熊繪日記": { "tmdb_season": 1 },
-    "異世界悠閒農家 2": { "tmdb_season": 2 },
-    "百鬼夜行抄": { "tmdb_season": 1 },
-    "神之雫": { "tmdb_season": 1 },
-    "終末起點 第二季": { "tmdb_season": 2 },
-    "茉莉花同學的好感度壞得很徹底": { "tmdb_season": 1 },
-    "複製品的我也會談戀愛": { "tmdb_season": 1 },
-    "輪迴的花瓣": { "tmdb_season": 1 },
+    "吞噬魔物的冒險者": {
+      "tmdb_id": 310921,
+      "tmdb_season": 1
+    },
+    "大江戶烈火殺手 - 鳳凰傳說": {
+      "tmdb_id": 284969,
+      "tmdb_season": 1
+    },
+    "大賢者里德爾的時間逆行": {
+      "tmdb_id": 313395,
+      "tmdb_season": 1
+    },
+    "女神「異世界轉生想成為什麼」我「勇者的肋骨」": {
+      "tmdb_id": 312522,
+      "tmdb_season": 1
+    },
+    "女騎士成為蠻族新娘": {
+      "tmdb_id": 273467,
+      "tmdb_season": 1
+    },
+    "容易對付的惡魔大人": {
+      "tmdb_id": 285818,
+      "tmdb_season": 1
+    },
+    "左撇子艾倫": {
+      "tmdb_id": 305567,
+      "tmdb_season": 1
+    },
+    "庫吉馬唱歌的家": {
+      "tmdb_id": 283888,
+      "tmdb_season": 1
+    },
+    "從前從前有隻貓！世界喵童話": {
+      "tmdb_id": 297743,
+      "tmdb_season": 1
+    },
+    "成為悲劇元兇的最強異端，最後頭目女王為了人民犧牲奉獻 第二季": {
+      "tmdb_id": 213326,
+      "tmdb_season": 2
+    },
+    "我和班上第二可愛的女生成為朋友": {
+      "tmdb_id": 290019,
+      "tmdb_season": 1
+    },
+    "我回來了，他又來打擾了！": {
+      "tmdb_id": 306790,
+      "tmdb_season": 1
+    },
+    "拉拉熊": {
+      "tmdb_id": 299144,
+      "tmdb_season": 1
+    },
+    "春夏秋冬代行者 春之舞": {
+      "tmdb_id": 288659,
+      "tmdb_season": 1
+    },
+    "木頭風紀委員和迷你裙 JK 的故事": {
+      "tmdb_id": 288551,
+      "tmdb_season": 1
+    },
+    "朱音落語": {
+      "tmdb_id": 297438,
+      "tmdb_season": 1
+    },
+    "楠木邸的神明庭院": {
+      "tmdb_id": 296870,
+      "tmdb_season": 1
+    },
+    "歡迎來到實力至上主義的教室 第四季 2年級篇 第一學期": {
+      "tmdb_id": 72517,
+      "tmdb_season": 4
+    },
+    "溜掉的大魚比不上自己釣到的魚": {
+      "tmdb_id": 304820,
+      "tmdb_season": 1
+    },
+    "炎炎消防隊 參之章": {
+      "tmdb_id": 88046,
+      "tmdb_season": 3
+    },
+    "無尾熊繪日記": {
+      "tmdb_id": 296933,
+      "tmdb_season": 1
+    },
+    "異世界悠閒農家 2": {
+      "tmdb_id": 196285,
+      "tmdb_season": 2
+    },
+    "百鬼夜行抄": {
+      "tmdb_id": 318478,
+      "tmdb_season": 1
+    },
+    "神之雫": {
+      "tmdb_id": 218961,
+      "tmdb_season": 1
+    },
+    "終末起點 第二季": {
+      "tmdb_id": 274671,
+      "tmdb_season": 2
+    },
+    "茉莉花同學的好感度壞得很徹底": {
+      "tmdb_id": 315816,
+      "tmdb_season": 1
+    },
+    "複製品的我也會談戀愛": {
+      "tmdb_id": 284568,
+      "tmdb_season": 1
+    },
+    "輪迴的花瓣": {
+      "tmdb_id": 261780,
+      "tmdb_season": 1
+    },
     "轉生惡女的黑歷史": {
+      "tmdb_id": 286404,
       "tmdb_season": 1,
       "_note": "TMDB S01=12ep, ANi ep13可能是数据滞后"
     },
-    "鑽石王牌 act2 第二季": { "tmdb_season": 3 },
-    "關於我在無意間被隔壁的天使變成廢柴這件事 2": { "tmdb_season": 2 },
+    "鑽石王牌 act2 第二季": {
+      "tmdb_id": 60761,
+      "tmdb_season": 3
+    },
+    "關於我在無意間被隔壁的天使變成廢柴這件事 2": {
+      "tmdb_id": 154743,
+      "tmdb_season": 2
+    },
     "關於我轉生變成史萊姆這檔事 第四季": {
+      "tmdb_id": 82684,
       "tmdb_season": 4,
       "episode_offset": -72,
       "_note": "S4连续编号. S2=-24,S3=-48,S4=-72"
     },
-    "霧尾粉絲後援會": { "tmdb_season": 1 },
-    "非人學生與厭世教師": { "tmdb_season": 1 },
-    "魔法姊妹露露特莉莉": { "tmdb_season": 1 },
-    "黃泉使者": { "tmdb_season": 1 },
-    "主播女孩重度依賴": { "tmdb_season": 1 },
-    "婚姻劇毒": { "tmdb_season": 1 },
-    "淡島百景": { "tmdb_season": 1 },
-    "淫獄團地": { "tmdb_season": 1 },
+    "霧尾粉絲後援會": {
+      "tmdb_id": 303870,
+      "tmdb_season": 1
+    },
+    "非人學生與厭世教師": {
+      "tmdb_id": 303434,
+      "tmdb_season": 1
+    },
+    "魔法姊妹露露特莉莉": {
+      "tmdb_id": 286361,
+      "tmdb_season": 1
+    },
+    "黃泉使者": {
+      "tmdb_id": 260463,
+      "tmdb_season": 1
+    },
+    "主播女孩重度依賴": {
+      "tmdb_id": 305329,
+      "tmdb_season": 1
+    },
+    "婚姻劇毒": {
+      "tmdb_id": 301944,
+      "tmdb_season": 1
+    },
+    "淡島百景": {
+      "tmdb_id": 291403,
+      "tmdb_season": 1
+    },
+    "淫獄團地": {
+      "tmdb_id": 316427,
+      "tmdb_season": 1
+    },
     "異獸魔都 第二季": {
+      "tmdb_id": 94404,
       "tmdb_season": 2,
       "episode_offset": -12,
       "_note": "S2连续编号，ANi ep13=TMDB S02E01"
     },
-    "一疊間漫畫咖啡廳日常": { "tmdb_season": 1 },
-    "勇者之渣": { "tmdb_season": 1 },
+    "一疊間漫畫咖啡廳日常": {
+      "tmdb_id": 295751,
+      "tmdb_season": 1
+    },
+    "勇者之渣": {
+      "tmdb_id": 284432,
+      "tmdb_season": 1
+    },
     "小書痴的下剋上 為了成為圖書管理員不擇手段！領主的養女": {
+      "tmdb_id": 91768,
       "tmdb_season": 2,
       "_note": "TMDB S1=36ep(原系列合并), 領主的養女为TMDB S2"
     },
-    "弱弱老師": { "tmdb_season": 1 },
-    "殺手青春": { "tmdb_season": 1 }
+    "弱弱老師": {
+      "tmdb_id": 284447,
+      "tmdb_season": 1
+    },
+    "殺手青春": {
+      "tmdb_id": 300131,
+      "tmdb_season": 1
+    }
   }
 }

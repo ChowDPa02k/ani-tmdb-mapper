@@ -573,7 +573,7 @@ class ConfirmedMappingManager:
         return self.data.get("mappings", {}).get(full_title)
 
     def add_mapping(self, full_title, mapping_info):
-        """Add a confirmed mapping. mapping_info: {tmdb_season, episode_offset?, _note?}"""
+        """Add a confirmed mapping. mapping_info: {tmdb_id, tmdb_season, episode_offset?, _note?}"""
         self.data.setdefault("mappings", {})[full_title] = mapping_info
         self.save()
 
@@ -856,11 +856,13 @@ def format_llm_prompt(context_items):
     parts.append("```json")
     parts.append('{')
     parts.append('  "EXACT_ANi_TITLE": {')
+    parts.append('    "tmdb_id": <TMDB TV show ID>,')
     parts.append('    "tmdb_season": <TMDB season number>,')
     parts.append('    "episode_offset": <offset or omit if 0, ANi_ep + offset = TMDB_ep>,')
     parts.append('    "_note": "explanation"')
     parts.append('  },')
     parts.append('  "EXACT_ANi_TITLE Season 2": {')
+    parts.append('    "tmdb_id": <TMDB TV show ID>,')
     parts.append('    "tmdb_season": <TMDB season number>,')
     parts.append('    "episode_offset": <offset if continuous numbering>')
     parts.append('  }')
