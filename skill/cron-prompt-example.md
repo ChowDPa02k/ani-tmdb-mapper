@@ -10,14 +10,14 @@
 ## Prompt
 
 ```
-执行 ani-tmdb-mapper skill 的完整工作流：
-
-1. 运行映射脚本（--no-cache-refresh）
-2. 如果全部已映射，输出"无变化"并结束
-3. 如果有未映射项，分析 mapping_context.json，按 SKILL.md 判断规则处理
-4. 更新 confirmed.json，重新生成 mapping.json 和 mappings_kubespider.json
-5. 如有变动，执行 release.sh 发布新版本
-6. 汇报结果
+加载 ani-tmdb-mapper skill，按 SKILL.md 的完整工作流执行：
+1. cd 到 /Users/zhoudingpeng/Appdata/openclaw-data/workspace/ani-tmdb-mapper，运行 python3 ani_tmdb_mapper.py --no-cache-refresh
+2. 如果所有标题已映射（输出包含 "All titles are already mapped"），直接结束，不发布
+3. 如果有未映射标题：读取 mapping_context.json，分析每个标题的 TMDB 季集映射，更新 confirmed.json
+4. 重新生成 mapping.json 和 mappings_kubespider.json：
+   python3 -c "from ani_tmdb_mapper import ConfirmedMappingManager, generate_mapping_json, generate_kubespider_json; mgr = ConfirmedMappingManager(); generate_mapping_json(mgr); generate_kubespider_json(mgr)"
+5. 运行 bash release.sh 发布新版本
+6. 简要汇报结果
 
 注意：
 - 总集篇/recap/SP 不做映射，等正式剧集发布后再确认
