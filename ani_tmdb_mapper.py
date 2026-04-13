@@ -406,6 +406,57 @@ class TMDBClient:
     def get_season_details(self, tv_id, season_num):
         return self._get(f"/tv/{tv_id}/season/{season_num}")
 
+    def get_season_episodes_summary(self, tv_id, season_num, lang_both=True):
+        """
+        Get episode-level details for a season: air_date, name, notable markers.
+        Returns list of dicts with episode_number, air_date, name, is_finale, runtime.
+        If lang_both=True, also fetch en-US for better episode names.
+        """
+        data = self._get(f"/tv/{tv_id}/season/{season_num}")
+        if not data or "episodes" not in data:
+            return []
+
+        # Optionally fetch en-US for better episode names (finale markers often in English)
+        data_en = None
+        if lang_both:
+            saved_lang = TMDB_LANG
+            try:
+                url = f"{TMDB_BASE}/tv/{tv_id}/season/{season_num}?api_key={self.api_key}&language=en-US"
+                req = Request(url, headers={"User-Agent": "ANI-TMDB-Mapper/3.0"})
+                with _urlopen(req, timeout=15) as resp:
+                    data_en = json.loads(resp.read().decode('utf-8'))
+            except Exception:
+                pass
+
+        episodes = []
+        en_eps = {ep["episode_number"]: ep for ep in (data_en or {}).get("episodes", [])} if data_en else {}
+
+        for ep in data["episodes"]:
+            ep_num = ep["episode_number"]
+            ep_en = en_eps.get(ep_num, {})
+            name_zh = ep.get("name", "")
+            name_en = ep_en.get("name", "")
+            air_date = ep.get("air_date", "")
+            runtime = ep.get("runtime")
+
+            # Detect finale/special markers from both zh and en names
+            combined_name = f"{name_zh} {name_en}".lower()
+            is_finale = any(kw in combined_name for kw in [
+                'final', 'finale', '最終', '結末', '結局', 'conclusion',
+                'end of', 'goodbye', 'farewell', 'closing',
+            ])
+
+            episodes.append({
+                "ep": ep_num,
+                "air_date": air_date,
+                "name_zh": name_zh,
+                "name_en": name_en,
+                "is_finale": is_finale,
+                "runtime": runtime,
+            })
+
+        return episodes
+
     def is_exact_movie_match(self, title):
         """
         Check if the title exactly matches a TMDB movie.
@@ -582,6 +633,7 @@ class ConfirmedMappingManager:
 # ANi RSS Parsing
 # ============================================================
 def fetch_ani_titles():
+    """Fetch ANi RSS and return list of (title, pubDate) tuples."""
     print(f"📡 Fetching ANi RSS: {ANI_RSS_URL}")
     req = Request(ANI_RSS_URL, headers={"User-Agent": "ANI-TMDB-Mapper/3.0"})
     with _urlopen(req, timeout=30) as resp:
@@ -590,8 +642,15 @@ def fetch_ani_titles():
     titles = []
     for item in root.findall('.//item'):
         el = item.find('title')
+        pd = item.find('pubDate')
         if el is not None and el.text:
-            titles.append(el.text.strip())
+            pub_date = ""
+            if pd is not None and pd.text:
+                try:
+                    pub_date = datetime.strptime(pd.text.strip(), "%a, %d %b %Y %H:%M:%S %Z").strftime("%Y-%m-%d")
+                except ValueError:
+                    pub_date = pd.text.strip()[:10]
+            titles.append((el.text.strip(), pub_date))
     print(f"  ✅ {len(titles)} titles")
     return titles
 
@@ -662,25 +721,30 @@ def extract_base_and_keyword(title):
 
 
 def group_by_anime(titles):
+    """titles: list of (raw_title, pub_date) tuples from fetch_ani_titles()."""
     parsed = []
-    for t in titles:
-        p = parse_ani_title(t)
+    for raw, pub_date in titles:
+        p = parse_ani_title(raw)
         if p:
+            p["pub_date"] = pub_date
             parsed.append(p)
 
-    full_groups = defaultdict(list)
+    full_groups = defaultdict(lambda: {"episodes": [], "pub_dates": []})
     for p in parsed:
-        full_groups[p["full_title"]].append(p["episode"])
+        full_groups[p["full_title"]]["episodes"].append(p["episode"])
+        if p["pub_date"]:
+            full_groups[p["full_title"]]["pub_dates"].append(p["pub_date"])
 
     base_groups = defaultdict(dict)
-    for full_title, episodes in full_groups.items():
+    for full_title, data in full_groups.items():
         base, keyword, subtitle = extract_base_and_keyword(full_title)
         season = detect_season_number(full_title)
         base_groups[base][full_title] = {
-            "episodes": sorted(set(episodes)),
+            "episodes": sorted(set(data["episodes"])),
             "season": season,
             "keyword": keyword,
             "subtitle": subtitle,
+            "pub_dates": sorted(set(data["pub_dates"])),
         }
     return dict(base_groups)
 
@@ -709,6 +773,7 @@ def generate_llm_context(base_groups, tmdb_client, ani_cache, confirmed_mgr):
             "ani_variants": [],
             "ani_history": None,
             "tmdb": None,
+            "tmdb_episodes": None,
         }
 
         for vt, info in variants.items():
@@ -720,6 +785,7 @@ def generate_llm_context(base_groups, tmdb_client, ani_cache, confirmed_mgr):
                 "ani_season": info["season"],
                 "keyword": info["keyword"],
                 "subtitle": info["subtitle"],
+                "pub_dates": info.get("pub_dates", []),
             })
 
         if not item["ani_variants"]:
@@ -748,6 +814,29 @@ def generate_llm_context(base_groups, tmdb_client, ani_cache, confirmed_mgr):
                     for s in tmdb["seasons"]
                 ],
             }
+
+            # Fetch episode-level details for relevant seasons
+            # Target: the season(s) that likely correspond to the ANi variant(s)
+            target_seasons = set()
+            for vt, info in variants.items():
+                if confirmed_mgr.is_confirmed(vt):
+                    continue
+                # The TMDB season we expect this variant maps to
+                target_seasons.add(info["season"])  # ANi's season as initial guess
+            # Also include all TMDB seasons if total is small (≤3)
+            if tmdb["total_seasons"] <= 3:
+                for s in tmdb["seasons"]:
+                    if s["sn"] > 0:  # skip specials
+                        target_seasons.add(s["sn"])
+
+            item["tmdb_episodes"] = {}
+            for sn in sorted(target_seasons):
+                if sn <= 0:
+                    continue
+                time.sleep(RATE_LIMIT_DELAY)
+                ep_details = tmdb_client.get_season_episodes_summary(tmdb["tmdb_id"], sn)
+                if ep_details:
+                    item["tmdb_episodes"][sn] = ep_details
 
             # ANi history for multi-season anime
             has_multi = any(info["season"] > 1 for info in variants.values())
@@ -803,10 +892,21 @@ def format_llm_prompt(context_items):
         "5. **Missing intermediate seasons**: Normal — ANi may not have",
         "   licensed all seasons. Only map what exists in the data.",
         "",
+        "6. **Split-cour / Part 2 detection**: When ANi labels a show as",
+        "   \"XXXX Part 2\" / \"XXXX 下半\" / \"XXXX 第2期\" but TMDB keeps it in",
+        "   one season, use air_date proximity and episode names to confirm:",
+        "   - Match ANi pub_dates to TMDB episode air_dates",
+        "   - Look for arc name changes (new arc = possible cour boundary)",
+        "   - Finale markers (⭐) indicate where a cour ends",
+        "   - Large air_date gaps (>30 days) in TMDB often indicate cour breaks",
+        "   - If ANi \"Part 2 - 01\" maps to TMDB S01E13, offset = -12",
+        "",
         "## Notes",
         "- TMDB data may lag behind ANi (ANi updates faster)",
         "- If TMDB season has ep_count=0 or very few, data may be outdated",
         "- ANi history episode ranges are from actual files, most reliable",
+        "- TMDB episode air_dates and names help identify cour boundaries",
+        "- ⭐ marks indicate finale/ending episodes in TMDB",
         "",
         "Output the mapping as JSON.",
         "",
@@ -820,9 +920,12 @@ def format_llm_prompt(context_items):
         parts.append("### ANi RSS Current:")
         for v in item["ani_variants"]:
             eps_str = ", ".join(str(e) for e in v["episodes"]) if v["episodes"] else "?"
+            pub_str = ""
+            if v.get("pub_dates"):
+                pub_str = f', pub_dates: [{v["pub_dates"][0]}~{v["pub_dates"][-1]}]'
             parts.append(
                 f'- "{v["title"]}" → ANi season S{v["ani_season"]}, '
-                f'episodes: [{eps_str}]'
+                f'episodes: [{eps_str}]{pub_str}'
             )
         parts.append("")
 
@@ -845,6 +948,22 @@ def format_llm_prompt(context_items):
         else:
             parts.append("### TMDB: ❌ No match")
             parts.append("")
+
+        # TMDB Episode details (air dates, names, finale markers)
+        if item.get("tmdb_episodes"):
+            parts.append("### TMDB Episode Details (air_date, names, finale markers):")
+            for sn, episodes in sorted(item["tmdb_episodes"].items()):
+                parts.append(f"**Season {sn}:**")
+                for ep in episodes:
+                    name_display = ep["name_zh"]
+                    if ep["name_en"] and ep["name_en"] != ep["name_zh"]:
+                        name_display += f' / {ep["name_en"]}'
+                    finale_mark = " ⭐FINALE" if ep.get("is_finale") else ""
+                    air = ep.get("air_date", "?") or "?"
+                    parts.append(
+                        f'  E{ep["ep"]:02d} ({air}): {name_display}{finale_mark}'
+                    )
+                parts.append("")
 
     parts.append("---")
     parts.append("")

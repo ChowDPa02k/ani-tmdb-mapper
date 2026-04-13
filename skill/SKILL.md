@@ -38,7 +38,7 @@ python3 ani_tmdb_mapper.py --no-cache-refresh
 读取 `mapping_context.json`，对每个未映射标题判断：
 
 **判断规则：**
-1. **S1 新番，TMDB 也是 S1** → 直接写 `{ "tmdb_season": 1 }` 到 confirmed.json
+1. **S1 新番，TMDB 也是 S1** → 写 `{ "tmdb_id": N, "tmdb_season": 1 }` 到 confirmed.json
 2. **多季且有连续编号** → 需要写 `episode_offset`（ANi_ep + offset = TMDB_ep）
    - 例：ANi S2 从 ep13 开始，TMDB S02E01 → offset = -12
 3. **TMDB 只有1季但 ANi 拆成多季** → 写 `episode_offset` 累加
@@ -46,6 +46,14 @@ python3 ani_tmdb_mapper.py --no-cache-refresh
 4. **电影精确匹配** → 跳过（脚本已自动处理）
 5. **TMDB 数据滞后**（ANi ep 数超出 TMDB 记录）→ 写备注 `_note`，标记观察
 6. **中间季缺漏** → 正常现象（ANi 可能没买版权），只映射现有的
+7. **Split-cour / 上下分割放送** → 使用以下辅助信息判断：
+   - **air_date 对比**：将 ANi pub_date 与 TMDB episode air_date 对齐，找到最接近的集数
+   - **⭐ FINALE 标记**：TMDB 中标记为季中/季末大结局的 episode，往往是 cour 分割点
+   - **弧线名称变化**：TMDB episode name 出现新弧线名时，可能是新 cour 的开始
+   - **air_date 间隔**：TMDB 中相邻 episode 的 air_date 出现 >30 天间隔，通常是 cour 间歇期
+   - 例：ANi "XXXX Part2 - 01"，TMDB S01 有 24 集，E12 标记 ⭐FINALE，ANi pub_date 接近 E13 的 air_date → 大概率 offset = -12
+
+**tmdb_id 来源**：从 mapping_context.json 中获取，每个条目的 `tmdb.tmdb_id` 字段。
 
 **边界条件（禁止映射）：**
 - **总集篇/ recap**：如果 ANi 当前只有总集篇（如 "Season 2" 仅发布了第0集或总集回顾），**不要**写入 confirmed.json。等到该季第1集正式发布后再确认映射。总集篇的集数编号可能不代表最终季集结构。
@@ -85,8 +93,8 @@ jsDelivr URL：
 - **confirmed.json**: 精确匹配（key = 完整 ANi 解析标题），无子串匹配
 - **前向兼容**: S1 条目不会误匹配未来 S2 标题
 - **增量迭代**: 每次只处理新增标题，已确认的直接跳过
-- **mapping.json**: 从 confirmed.json 派生，剥离内部字段（_note 等）
-- **mappings_kubespider.json**: KubeSpider 格式，自动生成 custom_season_mapping + season_episode_adjustment
+- **mapping.json**: 从 confirmed.json 派生，剥离内部字段（_note 等），保留 tmdb_id
+- **mappings_kubespider.json**: KubeSpider 格式，不含 tmdb_id，自动生成 custom_season_mapping + season_episode_adjustment
 
 ## ANi 目录缓存
 
