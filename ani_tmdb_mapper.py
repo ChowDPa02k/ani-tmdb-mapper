@@ -408,18 +408,24 @@ class TMDBClient:
 
     def get_season_episodes_summary(self, tv_id, season_num, lang_both=True):
         """
-        Get episode-level details for a season: air_date, name, notable markers.
-        Returns list of dicts with episode_number, air_date, name, is_finale, runtime.
+        Get episode-level details for a season: air_date, name, episode_type.
+        
+        TMDB episode_type values:
+          - "standard": normal episode
+          - "mid_season": mid-season finale (cour boundary)
+          - "finale": season finale
+        
+        Returns list of dicts with episode_number, air_date, name_zh, name_en,
+                 episode_type, runtime.
         If lang_both=True, also fetch en-US for better episode names.
         """
         data = self._get(f"/tv/{tv_id}/season/{season_num}")
         if not data or "episodes" not in data:
             return []
 
-        # Optionally fetch en-US for better episode names (finale markers often in English)
+        # Optionally fetch en-US for better episode names
         data_en = None
         if lang_both:
-            saved_lang = TMDB_LANG
             try:
                 url = f"{TMDB_BASE}/tv/{tv_id}/season/{season_num}?api_key={self.api_key}&language=en-US"
                 req = Request(url, headers={"User-Agent": "ANI-TMDB-Mapper/3.0"})
@@ -438,20 +444,15 @@ class TMDBClient:
             name_en = ep_en.get("name", "")
             air_date = ep.get("air_date", "")
             runtime = ep.get("runtime")
-
-            # Detect finale/special markers from both zh and en names
-            combined_name = f"{name_zh} {name_en}".lower()
-            is_finale = any(kw in combined_name for kw in [
-                'final', 'finale', '最終', '結末', '結局', 'conclusion',
-                'end of', 'goodbye', 'farewell', 'closing',
-            ])
+            # TMDB native episode_type: "standard", "mid_season", "finale"
+            episode_type = ep.get("episode_type", "standard")
 
             episodes.append({
                 "ep": ep_num,
                 "air_date": air_date,
                 "name_zh": name_zh,
                 "name_en": name_en,
-                "is_finale": is_finale,
+                "episode_type": episode_type,
                 "runtime": runtime,
             })
 
@@ -894,10 +895,10 @@ def format_llm_prompt(context_items):
         "",
         "6. **Split-cour / Part 2 detection**: When ANi labels a show as",
         "   \"XXXX Part 2\" / \"XXXX 下半\" / \"XXXX 第2期\" but TMDB keeps it in",
-        "   one season, use air_date proximity and episode names to confirm:",
+        "   one season, use air_date proximity and episode_type to confirm:",
         "   - Match ANi pub_dates to TMDB episode air_dates",
         "   - Look for arc name changes (new arc = possible cour boundary)",
-        "   - Finale markers (⭐) indicate where a cour ends",
+        "   - episode_type markers: mid_season (🟢) = cour boundary, finale (⭐) = season end",
         "   - Large air_date gaps (>30 days) in TMDB often indicate cour breaks",
         "   - If ANi \"Part 2 - 01\" maps to TMDB S01E13, offset = -12",
         "",
@@ -905,8 +906,9 @@ def format_llm_prompt(context_items):
         "- TMDB data may lag behind ANi (ANi updates faster)",
         "- If TMDB season has ep_count=0 or very few, data may be outdated",
         "- ANi history episode ranges are from actual files, most reliable",
-        "- TMDB episode air_dates and names help identify cour boundaries",
-        "- ⭐ marks indicate finale/ending episodes in TMDB",
+        "- TMDB episode_type: standard / mid_season (cour boundary) / finale (season end)",
+        "- Use air_date alignment + episode_type + arc name changes to identify cour boundaries",
+        "- 🟢mid_season = the episode before a cour break, ⭐finale = last episode of season",
         "",
         "Output the mapping as JSON.",
         "",
@@ -949,19 +951,26 @@ def format_llm_prompt(context_items):
             parts.append("### TMDB: ❌ No match")
             parts.append("")
 
-        # TMDB Episode details (air dates, names, finale markers)
+        # TMDB Episode details (air dates, names, episode_type markers)
         if item.get("tmdb_episodes"):
-            parts.append("### TMDB Episode Details (air_date, names, finale markers):")
+            parts.append("### TMDB Episode Details (air_date, episode_type):")
+            parts.append("episode_type: standard=普通集 | 🟢mid_season=季中大结局(cour分界) | ⭐finale=本季大结局")
             for sn, episodes in sorted(item["tmdb_episodes"].items()):
                 parts.append(f"**Season {sn}:**")
                 for ep in episodes:
-                    name_display = ep["name_zh"]
-                    if ep["name_en"] and ep["name_en"] != ep["name_zh"]:
-                        name_display += f' / {ep["name_en"]}'
-                    finale_mark = " ⭐FINALE" if ep.get("is_finale") else ""
+                    name_display = ep.get("name_zh", "")
+                    name_en = ep.get("name_en", "")
+                    if name_en and name_en != name_display:
+                        name_display += f' / {name_en}'
+                    etype = ep.get("episode_type", "standard")
+                    type_mark = ""
+                    if etype == "finale":
+                        type_mark = " ⭐FINALE"
+                    elif etype == "mid_season":
+                        type_mark = " 🟢MID_SEASON"
                     air = ep.get("air_date", "?") or "?"
                     parts.append(
-                        f'  E{ep["ep"]:02d} ({air}): {name_display}{finale_mark}'
+                        f'  E{ep["ep"]:02d} ({air}): {name_display}{type_mark}'
                     )
                 parts.append("")
 

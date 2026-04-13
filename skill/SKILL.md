@@ -47,11 +47,11 @@ python3 ani_tmdb_mapper.py --no-cache-refresh
 5. **TMDB 数据滞后**（ANi ep 数超出 TMDB 记录）→ 写备注 `_note`，标记观察
 6. **中间季缺漏** → 正常现象（ANi 可能没买版权），只映射现有的
 7. **Split-cour / 上下分割放送** → 使用以下辅助信息判断：
+   - **episode_type**（TMDB 原生字段）：`standard` = 普通集，`mid_season` = 季中大结局(cour分界)，`finale` = 本季大结局
    - **air_date 对比**：将 ANi pub_date 与 TMDB episode air_date 对齐，找到最接近的集数
-   - **⭐ FINALE 标记**：TMDB 中标记为季中/季末大结局的 episode，往往是 cour 分割点
    - **弧线名称变化**：TMDB episode name 出现新弧线名时，可能是新 cour 的开始
    - **air_date 间隔**：TMDB 中相邻 episode 的 air_date 出现 >30 天间隔，通常是 cour 间歇期
-   - 例：ANi "XXXX Part2 - 01"，TMDB S01 有 24 集，E12 标记 ⭐FINALE，ANi pub_date 接近 E13 的 air_date → 大概率 offset = -12
+   - 例：ANi "XXXX Part2 - 01"，TMDB S01 有 24 集，E12 标记 `mid_season`，E13 的 air_date 与 ANi pub_date 吻合 → 大概率 offset = -12
 
 **tmdb_id 来源**：从 mapping_context.json 中获取，每个条目的 `tmdb.tmdb_id` 字段。
 
