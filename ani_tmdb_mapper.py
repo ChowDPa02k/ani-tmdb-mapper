@@ -1095,7 +1095,9 @@ def generate_kubespider_json(confirmed_mgr, output_path=None):
         if needs_adjustment:
             if base_title not in adjustments:
                 adjustments[base_title] = {}
-            adjustments[base_title][str(ani_season)] = offset
+            # Use tmdb_season as key — KubeSpider looks up by the mapped season,
+            # not the original ANi season number.
+            adjustments[base_title][str(tmdb_season)] = offset
 
     result = {}
     if custom:
