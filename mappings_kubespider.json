@@ -39,6 +39,10 @@
     "想看她一臉嫌惡地露出褲褲 R": {
       "season": 3,
       "reserve_keywords": "想看她一臉嫌惡地露出褲褲 R"
+    },
+    "我的英雄學院 FINAL SEASON": {
+      "season": 8,
+      "reserve_keywords": "我的英雄學院 FINAL SEASON"
     }
   },
   "season_episode_adjustment": {
@@ -59,6 +63,9 @@
     },
     "杖與劍的魔劍譚": {
       "2": -12
+    },
+    "我的英雄學院 FINAL SEASON": {
+      "8": -159
     }
   }
 }
