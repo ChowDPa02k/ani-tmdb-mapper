@@ -1,6 +1,6 @@
 {
   "_metadata": {
-    "generated_at": "2026-07-03 03:56:02",
+    "generated_at": "2026-07-04 03:57:02",
     "tmdb_language": "zh-TW",
     "version": "5.0",
     "description": "Keys are exact ANi parsed titles. Exact match only — no substring matching.",
@@ -312,6 +312,29 @@
     },
     "遭到流放的轉生重騎士憑藉遊戲知識大開無雙": {
       "tmdb_id": 270603,
+      "tmdb_season": 1
+    },
+    "令和妖神斑小姐": {
+      "tmdb_id": 312507,
+      "tmdb_season": 1
+    },
+    "地獄模式 ～喜歡挑戰特殊成就的玩家在廢設定的異世界成為無雙～ 2nd Season": {
+      "tmdb_id": 280049,
+      "tmdb_season": 2,
+      "episode_offset": -12,
+      "ani_category": "db36fcad-0dc5-542a-94f1-8d9351ed0396"
+    },
+    "從 0 位居民開始的邊境領主大人": {
+      "tmdb_id": 296437,
+      "tmdb_season": 1
+    },
+    "我家的弟弟們真是讓您費心了": {
+      "tmdb_id": 307585,
+      "tmdb_season": 1,
+      "ani_category": "b62256b2-28fa-56cd-a54a-c7098c538f53"
+    },
+    "畫完這個再去死": {
+      "tmdb_id": 287028,
       "tmdb_season": 1
     }
   }

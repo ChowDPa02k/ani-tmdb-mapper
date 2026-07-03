@@ -43,6 +43,10 @@
     "我的英雄學院 FINAL SEASON": {
       "season": 8,
       "reserve_keywords": "我的英雄學院 FINAL SEASON"
+    },
+    "地獄模式 ～喜歡挑戰特殊成就的玩家在廢設定的異世界成為無雙～ 2nd Season": {
+      "season": 2,
+      "reserve_keywords": "地獄模式 ～喜歡挑戰特殊成就的玩家在廢設定的異世界成為無雙～"
     }
   },
   "season_episode_adjustment": {
@@ -66,6 +70,9 @@
     },
     "我的英雄學院 FINAL SEASON": {
       "8": -159
+    },
+    "地獄模式 ～喜歡挑戰特殊成就的玩家在廢設定的異世界成為無雙～": {
+      "2": -12
     }
   }
 }
