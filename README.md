@@ -52,8 +52,9 @@ TMDB API Key 申请: https://www.themoviedb.org/settings/api
 | 文件 | 说明 | Git |
 |------|------|-----|
 | `ani_tmdb_mapper.py` | 主脚本 | ✅ |
-| `confirmed.json` | 已确认的映射（跳过列表） | ✅ |
-| `mapping.json` | 最终输出，供下游使用 | ✅ |
+| `confirmed.json` | 已确认的映射（含 tmdb_id、季、偏移） | ✅ |
+| `mapping.json` | 最终输出，供下游使用（含 tmdb_id） | ✅ |
+| `mappings_kubespider.json` | KubeSpider 格式输出（不含 tmdb_id） | ✅ |
 | `ani_directory_cache.db` | ANi 目录结构 SQLite 缓存 | ✅ |
 | `.env` | API Key 和代理配置 | ❌ |
 | `*_context.json` | LLM 上下文数据（临时） | ❌ |
@@ -63,35 +64,43 @@ TMDB API Key 申请: https://www.themoviedb.org/settings/api
 
 ```json
 {
-  "custom_season_mapping": {
-    "ANi 标题关键词": {
-      "season": 1,
-      "reserve_keywords": "用于文件名的基础标题",
-      "episode_offset": 66
-    }
-  },
-  "season_episode_adjustment": {
-    "动画基础名": {
-      "2": -24,
-      "3": -48
+  "mappings": {
+    "EXACT_ANi_TITLE": {
+      "tmdb_id": 12345,
+      "tmdb_season": 1
+    },
+    "EXACT_ANi_TITLE Season 2": {
+      "tmdb_id": 12345,
+      "tmdb_season": 2,
+      "episode_offset": -12,
+      "ani_category": "1781832f-1e7f-52ec-9df4-8646a9dfe12b"
     }
   }
 }
 ```
 
-### custom_season_mapping
+每个条目包含：
+- **tmdb_id**: TMDB 电视剧 ID（可用于直接查询 TMDB API）
+- **tmdb_season**: 对应的 TMDB 季号
+- **episode_offset**（可选）: `ANi_集号 + offset = TMDB_集号`
+- **ani_category**（可选）: ANi 系列 UUID，仅 2026-07+ 新番携带
 
-当 ANi 认为的「季」与 TMDB 不同时使用。
+## ANi Category UUID 支持
 
-- **episode_offset**: `ANi_集号 + offset = TMDB_集号`
-- 例: Re:Zero 第四季 ep01 → S01E67 (offset=+66)
+ANi RSS 自 2026-07 季度起新增 `<category>` 字段，作为新番系列的唯一标识（UUID）：
 
-### season_episode_adjustment
+- **不同季度视为独立系列**：同一部作品的 S1 和 S2 携带不同的 UUID
+- **季度内番名变动 UUID 不变**：ANi 中途改名时，UUID 保持稳定，可继续匹配已有映射
+- **仅作用于 2026-07 及之后开播的番剧**：旧番无此字段，继续使用标题精确匹配
 
-当 ANi 使用连续编号但 TMDB 各季独立编号时。
+### 匹配优先级
 
-- 偏移为负数: `ANi_集号 + offset = TMDB_集号`
-- 例: 史莱姆第二季 ep25 → S02E01 (offset=-24)
+```
+1. category UUID 匹配（仅新番有）→ 命中则返回映射
+2. 标题精确匹配（传统方式）→ 回退方案
+```
+
+旧番剧完全不受影响，向后兼容。当新番在季度中途改名时，category UUID 保证映射不丢失。
 
 ## ANi 目录缓存策略
 

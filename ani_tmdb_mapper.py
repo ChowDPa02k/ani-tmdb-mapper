@@ -594,6 +594,16 @@ class ConfirmedMappingManager:
     no substring/fuzzy matching. This prevents S1 confirmed entries
     from matching future S2 titles (e.g., "非人學生與厭世教師" will
     NOT match "非人學生與厭世教師 第二季").
+
+    Category support (2026-07+):
+    - ANi RSS now includes a <category> UUID per item for new anime.
+      Different seasons carry different UUIDs; title changes within a
+      season keep the same UUID.
+    - When a mapping is confirmed with a category, it is stored as
+      "ani_category" inside the mapping entry.
+    - Lookup priority: category (if provided) → exact title match.
+    - Older anime without category fall back to title-only matching,
+      preserving full backward compatibility.
     """
 
     def __init__(self, path=None):
@@ -601,6 +611,7 @@ class ConfirmedMappingManager:
             path = str(SCRIPT_DIR / "confirmed.json")
         self.path = path
         self.data = self._load()
+        self._category_index = None
 
     def _load(self):
         if os.path.exists(self.path):
@@ -613,20 +624,59 @@ class ConfirmedMappingManager:
             json.dump(self.data, f, ensure_ascii=False, indent=2)
         print(f"  💾 Confirmed mappings saved: {self.path}")
 
-    def is_confirmed(self, full_title):
-        """Exact match only. No substring/fuzzy matching."""
+    def _build_category_index(self):
+        """Build category_uuid → full_title index from mappings (lazy)."""
+        index = {}
+        for title, info in self.data.get("mappings", {}).items():
+            if title.startswith("_"):
+                continue
+            cat = info.get("ani_category")
+            if cat:
+                index[cat] = title
+        return index
+
+    @property
+    def category_index(self):
+        """Lazy category → title lookup, rebuilt after save/add."""
+        if self._category_index is None:
+            self._category_index = self._build_category_index()
+        return self._category_index
+
+    def is_confirmed(self, full_title, category=None):
+        """Check if a title (or its category) is confirmed.
+
+        Priority: category match → exact title match.
+        No substring/fuzzy matching.
+        """
+        if category and category in self.category_index:
+            return True
         mappings = self.data.get("mappings", {})
         return full_title in mappings and not full_title.startswith("_")
 
-    def get_mapping_for(self, full_title):
-        """Get mapping by exact title match. Returns dict or None."""
+    def get_mapping_for(self, full_title, category=None):
+        """Get mapping by category (preferred) or exact title match.
+
+        Returns dict or None. If category matches, returns the mapping
+        stored under the category's associated title (which may differ
+        from the current full_title if ANi renamed the show mid-season).
+        """
+        if category and category in self.category_index:
+            title = self.category_index[category]
+            return self.data.get("mappings", {}).get(title)
         if full_title.startswith("_"):
             return None
         return self.data.get("mappings", {}).get(full_title)
 
-    def add_mapping(self, full_title, mapping_info):
-        """Add a confirmed mapping. mapping_info: {tmdb_id, tmdb_season, episode_offset?, _note?}"""
+    def add_mapping(self, full_title, mapping_info, category=None):
+        """Add a confirmed mapping.
+
+        mapping_info: {tmdb_id, tmdb_season, episode_offset?, _note?}
+        category: optional ANi series UUID (2026-07+), stored as ani_category.
+        """
+        if category and "ani_category" not in mapping_info:
+            mapping_info["ani_category"] = category
         self.data.setdefault("mappings", {})[full_title] = mapping_info
+        self._category_index = None  # invalidate cache
         self.save()
 
 
@@ -634,7 +684,11 @@ class ConfirmedMappingManager:
 # ANi RSS Parsing
 # ============================================================
 def fetch_ani_titles():
-    """Fetch ANi RSS and return list of (title, pubDate) tuples."""
+    """Fetch ANi RSS and return list of (title, pubDate, category) tuples.
+
+    category is ANi's series UUID (e.g. 1781832f-1e7f-52ec-9df4-8646a9dfe12b),
+    only present for anime starting 2026-07+. None for older titles.
+    """
     print(f"📡 Fetching ANi RSS: {ANI_RSS_URL}")
     req = Request(ANI_RSS_URL, headers={"User-Agent": "ANI-TMDB-Mapper/3.0"})
     with _urlopen(req, timeout=30) as resp:
@@ -644,6 +698,7 @@ def fetch_ani_titles():
     for item in root.findall('.//item'):
         el = item.find('title')
         pd = item.find('pubDate')
+        cat = item.find('category')
         if el is not None and el.text:
             pub_date = ""
             if pd is not None and pd.text:
@@ -651,19 +706,23 @@ def fetch_ani_titles():
                     pub_date = datetime.strptime(pd.text.strip(), "%a, %d %b %Y %H:%M:%S %Z").strftime("%Y-%m-%d")
                 except ValueError:
                     pub_date = pd.text.strip()[:10]
-            titles.append((el.text.strip(), pub_date))
+            # ANi category UUID — only for anime starting 2026-07+; None for older titles.
+            # Different seasons are treated as independent series (separate UUIDs).
+            # Title changes within a season do NOT change the UUID.
+            category = cat.text.strip() if cat is not None and cat.text else None
+            titles.append((el.text.strip(), pub_date, category))
     print(f"  ✅ {len(titles)} titles")
     return titles
 
 
-def parse_ani_title(raw):
+def parse_ani_title(raw, category=None):
     m = ANI_TITLE_RE.match(raw)
     if not m:
         return None
     full = m.group(1).strip()
     episode = m.group(2)
     clean = re.sub(r'\[.*?\]', '', full).strip()
-    return {"raw": raw, "full_title": clean, "episode": episode}
+    return {"raw": raw, "full_title": clean, "episode": episode, "category": category}
 
 
 def detect_season_number(title):
@@ -722,19 +781,26 @@ def extract_base_and_keyword(title):
 
 
 def group_by_anime(titles):
-    """titles: list of (raw_title, pub_date) tuples from fetch_ani_titles()."""
+    """titles: list of (raw_title, pub_date, category) tuples from fetch_ani_titles().
+
+    category (ANi series UUID) is attached to each variant for stable matching.
+    Different seasons carry different UUIDs; title changes within a season keep
+    the same UUID. Older anime without category use title-only matching (legacy).
+    """
     parsed = []
-    for raw, pub_date in titles:
-        p = parse_ani_title(raw)
+    for raw, pub_date, category in titles:
+        p = parse_ani_title(raw, category=category)
         if p:
             p["pub_date"] = pub_date
             parsed.append(p)
 
-    full_groups = defaultdict(lambda: {"episodes": [], "pub_dates": []})
+    full_groups = defaultdict(lambda: {"episodes": [], "pub_dates": [], "categories": set()})
     for p in parsed:
         full_groups[p["full_title"]]["episodes"].append(p["episode"])
         if p["pub_date"]:
             full_groups[p["full_title"]]["pub_dates"].append(p["pub_date"])
+        if p.get("category"):
+            full_groups[p["full_title"]]["categories"].add(p["category"])
 
     base_groups = defaultdict(dict)
     for full_title, data in full_groups.items():
@@ -746,6 +812,7 @@ def group_by_anime(titles):
             "keyword": keyword,
             "subtitle": subtitle,
             "pub_dates": sorted(set(data["pub_dates"])),
+            "categories": sorted(data["categories"]) if data["categories"] else [],
         }
     return dict(base_groups)
 
@@ -753,6 +820,17 @@ def group_by_anime(titles):
 # ============================================================
 # LLM Context Generation
 # ============================================================
+def _first_category(info):
+    """Extract the first ANi category UUID from a variant info dict, or None.
+
+    A variant may carry multiple category UUIDs if ANi assigned different
+    ones to files that parse to the same full title. The first is used as
+    the primary stable identifier.
+    """
+    cats = info.get("categories") or []
+    return cats[0] if cats else None
+
+
 def generate_llm_context(base_groups, tmdb_client, ani_cache, confirmed_mgr):
     """
     Collect all data for unmapped titles only.
@@ -763,7 +841,8 @@ def generate_llm_context(base_groups, tmdb_client, ani_cache, confirmed_mgr):
     for base_title, variants in sorted(base_groups.items()):
         # Skip if all variants are already confirmed
         all_confirmed = all(
-            confirmed_mgr.is_confirmed(vt) for vt in variants
+            confirmed_mgr.is_confirmed(vt, category=_first_category(info))
+            for vt, info in variants.items()
         )
         if all_confirmed:
             print(f"  ⏩ {base_title}: already confirmed, skipping")
@@ -778,7 +857,8 @@ def generate_llm_context(base_groups, tmdb_client, ani_cache, confirmed_mgr):
         }
 
         for vt, info in variants.items():
-            if confirmed_mgr.is_confirmed(vt):
+            cat = _first_category(info)
+            if confirmed_mgr.is_confirmed(vt, category=cat):
                 continue
             item["ani_variants"].append({
                 "title": vt,
@@ -787,6 +867,7 @@ def generate_llm_context(base_groups, tmdb_client, ani_cache, confirmed_mgr):
                 "keyword": info["keyword"],
                 "subtitle": info["subtitle"],
                 "pub_dates": info.get("pub_dates", []),
+                "category": cat,
             })
 
         if not item["ani_variants"]:
@@ -820,7 +901,7 @@ def generate_llm_context(base_groups, tmdb_client, ani_cache, confirmed_mgr):
             # Target: the season(s) that likely correspond to the ANi variant(s)
             target_seasons = set()
             for vt, info in variants.items():
-                if confirmed_mgr.is_confirmed(vt):
+                if confirmed_mgr.is_confirmed(vt, category=_first_category(info)):
                     continue
                 # The TMDB season we expect this variant maps to
                 target_seasons.add(info["season"])  # ANi's season as initial guess
@@ -909,6 +990,9 @@ def format_llm_prompt(context_items):
         "- TMDB episode_type: standard / mid_season (cour boundary) / finale (season end)",
         "- Use air_date alignment + episode_type + arc name changes to identify cour boundaries",
         "- 🟢mid_season = the episode before a cour break, ⭐finale = last episode of season",
+        "- ANi category UUID (2026-07+): stable series identifier. Different seasons =",
+        "  different UUIDs; title changes within a season keep the same UUID.",
+        "  Include \"ani_category\" in the output when the variant has one.",
         "",
         "Output the mapping as JSON.",
         "",
@@ -925,9 +1009,12 @@ def format_llm_prompt(context_items):
             pub_str = ""
             if v.get("pub_dates"):
                 pub_str = f', pub_dates: [{v["pub_dates"][0]}~{v["pub_dates"][-1]}]'
+            cat_str = ""
+            if v.get("category"):
+                cat_str = f', category: {v["category"]}'
             parts.append(
                 f'- "{v["title"]}" → ANi season S{v["ani_season"]}, '
-                f'episodes: [{eps_str}]{pub_str}'
+                f'episodes: [{eps_str}]{pub_str}{cat_str}'
             )
         parts.append("")
 
@@ -981,12 +1068,16 @@ def format_llm_prompt(context_items):
     parts.append("Each key is the EXACT ANi parsed title (full title between [ANi] and episode number).")
     parts.append("Matching is exact-only — S1 entries will NOT match S2 titles.")
     parts.append("")
+    parts.append("If the variant has an ANi category UUID (2026-07+ anime), include")
+    parts.append("\"ani_category\": \"<uuid>\" for stable matching across title changes.")
+    parts.append("")
     parts.append("```json")
     parts.append('{')
     parts.append('  "EXACT_ANi_TITLE": {')
     parts.append('    "tmdb_id": <TMDB TV show ID>,')
     parts.append('    "tmdb_season": <TMDB season number>,')
     parts.append('    "episode_offset": <offset or omit if 0, ANi_ep + offset = TMDB_ep>,')
+    parts.append('    "ani_category": "<ANi UUID, only for 2026-07+ anime>",')
     parts.append('    "_note": "explanation"')
     parts.append('  },')
     parts.append('  "EXACT_ANi_TITLE Season 2": {')
@@ -1022,8 +1113,9 @@ def generate_mapping_json(confirmed_mgr, output_path=None):
         "_metadata": {
             "generated_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
             "tmdb_language": TMDB_LANG,
-            "version": "4.0",
+            "version": "5.0",
             "description": "Keys are exact ANi parsed titles. Exact match only — no substring matching.",
+            "category_support": "ani_category (optional) carries ANi's series UUID for 2026-07+ anime. Use it for stable lookup when a title changes mid-season; fall back to title match when absent.",
         },
         "mappings": clean_mappings,
     }
@@ -1148,8 +1240,10 @@ def main():
         for vt, info in variants.items():
             s = info['season']
             eps = info['episodes']
-            confirmed = "✓" if confirmed_mgr.is_confirmed(vt) else " "
-            print(f"  [{confirmed}] {vt}  (S{s}, ep{eps})")
+            cat = _first_category(info)
+            cat_mark = f" 🏷{cat[:8]}" if cat else ""
+            confirmed = "✓" if confirmed_mgr.is_confirmed(vt, category=cat) else " "
+            print(f"  [{confirmed}] {vt}  (S{s}, ep{eps}){cat_mark}")
 
     if args.dry_run:
         out = args.output.replace('.json', '_dry.json')
@@ -1157,10 +1251,12 @@ def main():
         for base, variants in base_groups.items():
             serializable[base] = {}
             for vt, info in variants.items():
+                cat = _first_category(info)
                 serializable[base][vt] = {
                     "episodes": info["episodes"],
                     "season": info["season"],
-                    "confirmed": confirmed_mgr.is_confirmed(vt),
+                    "confirmed": confirmed_mgr.is_confirmed(vt, category=cat),
+                    "categories": info.get("categories", []),
                 }
         with open(out, 'w', encoding='utf-8') as f:
             json.dump(serializable, f, ensure_ascii=False, indent=2)

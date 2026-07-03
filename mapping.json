@@ -2,8 +2,9 @@
   "_metadata": {
     "generated_at": "2026-07-03 03:56:02",
     "tmdb_language": "zh-TW",
-    "version": "4.0",
-    "description": "Keys are exact ANi parsed titles. Exact match only — no substring matching."
+    "version": "5.0",
+    "description": "Keys are exact ANi parsed titles. Exact match only — no substring matching.",
+    "category_support": "ani_category (optional) carries ANi's series UUID for 2026-07+ anime. Use it for stable lookup when a title changes mid-season; fall back to title match when absent."
   },
   "mappings": {
     "Dr.STONE 新石紀 第四季": {

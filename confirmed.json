@@ -1,6 +1,7 @@
 {
   "_description": "Confirmed ANi→TMDB mappings. Keys are exact parsed ANi titles. Exact match only. Grows incrementally — only current and previously confirmed titles exist here.",
   "_updated": "2026-07-03",
+  "_category_support": "ANi RSS (2026-07+) includes a <category> UUID per item as a stable series identifier. When a mapping is confirmed for a title that carries a category, it is stored as 'ani_category' inside the entry. Lookup priority: category UUID → exact title. Older anime without category use title-only matching (legacy, fully backward compatible). Different seasons carry different UUIDs.",
   "mappings": {
     "Dr.STONE 新石紀 第四季": {
       "tmdb_id": 86031,

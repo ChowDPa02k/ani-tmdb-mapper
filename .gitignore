@@ -12,3 +12,7 @@ __pycache__/
 
 # OS
 .DS_Store
+
+# AI assistant local state
+.workbuddy/
+.codebuddy/
