@@ -1,6 +1,6 @@
 {
   "_description": "Confirmed ANi→TMDB mappings. Keys are exact parsed ANi titles. Exact match only. Grows incrementally — only current and previously confirmed titles exist here.",
-  "_updated": "2026-07-04",
+  "_updated": "2026-07-05",
   "_category_support": "ANi RSS (2026-07+) includes a <category> UUID per item as a stable series identifier. When a mapping is confirmed for a title that carries a category, it is stored as 'ani_category' inside the entry. Lookup priority: category UUID → exact title. Older anime without category use title-only matching (legacy, fully backward compatible). Different seasons carry different UUIDs.",
   "mappings": {
     "Dr.STONE 新石紀 第四季": {
@@ -360,6 +360,51 @@
       "tmdb_id": 308216,
       "tmdb_season": 1,
       "ani_category": "3a1664d7-a0a5-5e42-ad02-b5f103779d45"
+    },
+    "BLACK TORCH 闇黑燈火": {
+      "tmdb_id": 285993,
+      "tmdb_season": 1,
+      "ani_category": "04569931-ebdf-55b8-a4e6-6dccb559756f"
+    },
+    "Grow Up Show ～向日葵馬戲團～": {
+      "tmdb_id": 296101,
+      "tmdb_season": 1,
+      "ani_category": "ea12ba27-7038-5266-afd8-e450ab7f080f"
+    },
+    "岩元前輩的推薦": {
+      "tmdb_id": 324335,
+      "tmdb_season": 1,
+      "ani_category": "092f59f5-aa79-5ff9-9b12-f5890e4e75c1"
+    },
+    "才女的侍從 在滿是高嶺之花的貴族學校暗中照顧（毫無生活自理能力的）學院第一大小姐": {
+      "tmdb_id": 312849,
+      "tmdb_season": 1,
+      "ani_category": "d8eabf3f-bd1c-591e-bf7e-647888d50fa3"
+    },
+    "穹廬下的魔女": {
+      "tmdb_id": 288971,
+      "tmdb_season": 1,
+      "ani_category": "432840a6-766d-5777-9937-07f323676098"
+    },
+    "貓與龍": {
+      "tmdb_id": 284029,
+      "tmdb_season": 1,
+      "ani_category": "4f906dc6-da87-5555-9a41-bd8744dc295b"
+    },
+    "骸骨騎士大人異世界冒險中 第二季": {
+      "tmdb_id": 123528,
+      "tmdb_season": 2,
+      "ani_category": "c7270a14-c87e-557a-8fd0-116d2e99669e"
+    },
+    "鬼的新娘": {
+      "tmdb_id": 293489,
+      "tmdb_season": 1,
+      "ani_category": "56c8946c-3181-5be9-9a9e-f3c574e2a166"
+    },
+    "魔法少女奈葉 EXCEEDS Gun Blaze Vengeance": {
+      "tmdb_id": 287075,
+      "tmdb_season": 1,
+      "ani_category": "1965d31e-6164-5f63-910c-6b6060dc3466"
     }
   }
 }
