@@ -51,6 +51,14 @@
     "相反的你和我 第二季": {
       "season": 1,
       "reserve_keywords": "相反的你和我"
+    },
+    "GRAND BLUE 碧藍之海 3": {
+      "season": 3,
+      "reserve_keywords": "GRAND BLUE 碧藍之海"
+    },
+    "碧藍航線 微速前進！2": {
+      "season": 2,
+      "reserve_keywords": "碧藍航線 微速前進！2"
     }
   },
   "season_episode_adjustment": {
