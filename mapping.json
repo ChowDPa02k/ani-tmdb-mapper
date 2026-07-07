@@ -1,6 +1,6 @@
 {
   "_metadata": {
-    "generated_at": "2026-07-07 03:59:12",
+    "generated_at": "2026-07-07 10:47:39",
     "tmdb_language": "zh-TW",
     "version": "5.0",
     "description": "Keys are exact ANi parsed titles. Exact match only — no substring matching.",
@@ -441,6 +441,11 @@
       "tmdb_id": 295840,
       "tmdb_season": 1,
       "ani_category": "914ffd21-2b73-5614-a795-78356f725b61"
+    },
+    "Animatica「北斗之拳 拳王軍雜兵們的輓歌」": {
+      "tmdb_id": 310026,
+      "tmdb_season": 1,
+      "ani_category": "182a2cd4-c5a3-5771-bef0-7dc5dc0d84ca"
     }
   }
 }
