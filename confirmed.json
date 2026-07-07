@@ -1,6 +1,6 @@
 {
   "_description": "Confirmed ANi→TMDB mappings. Keys are exact parsed ANi titles. Exact match only. Grows incrementally — only current and previously confirmed titles exist here.",
-  "_updated": "2026-07-07",
+  "_updated": "2026-07-08",
   "_category_support": "ANi RSS (2026-07+) includes a <category> UUID per item as a stable series identifier. When a mapping is confirmed for a title that carries a category, it is stored as 'ani_category' inside the entry. Lookup priority: category UUID → exact title. Older anime without category use title-only matching (legacy, fully backward compatible). Different seasons carry different UUIDs.",
   "mappings": {
     "Dr.STONE 新石紀 第四季": {
@@ -456,6 +456,27 @@
       "tmdb_id": 310026,
       "tmdb_season": 1,
       "ani_category": "182a2cd4-c5a3-5771-bef0-7dc5dc0d84ca"
+    },
+    "奇招百出的維多利亞": {
+      "tmdb_id": 302519,
+      "tmdb_season": 1,
+      "ani_category": "f3f30826-3dbf-50a6-b6e1-930293de581a"
+    },
+    "感謝對戰。～大小姐才不玩格鬥遊戲～": {
+      "tmdb_id": 117120,
+      "tmdb_season": 1,
+      "ani_category": "ba6e4e48-9fc9-5311-bd38-3a722e7ce26b"
+    },
+    "拯救替身千金的是冷酷無情冰之王子的愛": {
+      "tmdb_id": 326191,
+      "tmdb_season": 1,
+      "ani_category": "28ed545e-c190-597c-983f-5a950cce19f1",
+      "_note": "TMDB名稱: 被冰冷王子的擁抱所拯救，同一作品"
+    },
+    "與妳相戀到生命盡頭": {
+      "tmdb_id": 285574,
+      "tmdb_season": 1,
+      "ani_category": "d338476e-261e-5f94-9e89-cb47ecf3f67a"
     }
   }
 }
