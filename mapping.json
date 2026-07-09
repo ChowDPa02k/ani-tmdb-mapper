@@ -1,6 +1,6 @@
 {
   "_metadata": {
-    "generated_at": "2026-07-09 04:09:15",
+    "generated_at": "2026-07-10 03:56:47",
     "tmdb_language": "zh-TW",
     "version": "5.0",
     "description": "Keys are exact ANi parsed titles. Exact match only — no substring matching.",
@@ -268,6 +268,11 @@
     "CANDY CARIES 蛀在糖糖裡": {
       "tmdb_id": 312383,
       "tmdb_season": 1
+    },
+    "Clevatess Ⅱ－魔獸之王與虛假的勇者傳承－": {
+      "tmdb_id": 258348,
+      "tmdb_season": 2,
+      "ani_category": "91869730-2bbc-581f-a8b2-b2287676b40c"
     },
     "想結束這場「我愛你」的遊戲": {
       "tmdb_id": 293697,
