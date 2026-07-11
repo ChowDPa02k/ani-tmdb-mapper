@@ -513,6 +513,12 @@
       "tmdb_season": 0,
       "ani_category": "ac6a12a4-ac56-5845-8148-658b46053512",
       "_note": "TMDB S00(特别篇). air_date完美对齐: ANi ep01=2026-07-10, TMDB S00E01=2026-07-10"
+    },
+    "花織即使是轉生也想打架": {
+      "tmdb_id": 312266,
+      "tmdb_season": 1,
+      "ani_category": "87eed293-38b5-5f94-b6ca-dfc8e937e626",
+      "_note": "新番S1. air_date对齐: ANi ep01=2026-07-11, TMDB S01E01=2026-07-12"
     }
   }
 }
