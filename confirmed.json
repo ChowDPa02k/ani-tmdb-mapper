@@ -1,6 +1,6 @@
 {
   "_description": "Confirmed ANi→TMDB mappings. Keys are exact parsed ANi titles. Exact match only. Grows incrementally — only current and previously confirmed titles exist here.",
-  "_updated": "2026-07-11",
+  "_updated": "2026-07-13",
   "_category_support": "ANi RSS (2026-07+) includes a <category> UUID per item as a stable series identifier. When a mapping is confirmed for a title that carries a category, it is stored as 'ani_category' inside the entry. Lookup priority: category UUID → exact title. Older anime without category use title-only matching (legacy, fully backward compatible). Different seasons carry different UUIDs.",
   "mappings": {
     "Dr.STONE 新石紀 第四季": {
@@ -519,6 +519,12 @@
       "tmdb_season": 1,
       "ani_category": "87eed293-38b5-5f94-b6ca-dfc8e937e626",
       "_note": "新番S1. air_date对齐: ANi ep01=2026-07-11, TMDB S01E01=2026-07-12"
+    },
+    "我是不才惡女": {
+      "tmdb_id": 286345,
+      "tmdb_season": 1,
+      "ani_category": "38b588d7-b003-5c9c-af8f-0765016ef4fc",
+      "_note": "新番S1. air_date完美对齐: ANi ep01=2026-07-12, TMDB S01E01=2026-07-12"
     }
   }
 }
