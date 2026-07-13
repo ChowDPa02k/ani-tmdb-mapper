@@ -1,6 +1,6 @@
 {
   "_metadata": {
-    "generated_at": "2026-07-13 03:56:25",
+    "generated_at": "2026-07-14 03:56:03",
     "tmdb_language": "zh-TW",
     "version": "5.0",
     "description": "Keys are exact ANi parsed titles. Exact match only — no substring matching.",
@@ -511,6 +511,11 @@
       "tmdb_id": 286345,
       "tmdb_season": 1,
       "ani_category": "38b588d7-b003-5c9c-af8f-0765016ef4fc"
+    },
+    "靠死亡遊戲混飯吃。": {
+      "tmdb_id": 263330,
+      "tmdb_season": 1,
+      "ani_category": "3b646a4e-29c4-58e8-9be9-4a4617f2d7a4"
     }
   }
 }
