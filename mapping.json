@@ -1,6 +1,6 @@
 {
   "_metadata": {
-    "generated_at": "2026-07-18 03:56:10",
+    "generated_at": "2026-07-25 03:56:25",
     "tmdb_language": "zh-TW",
     "version": "5.0",
     "description": "Keys are exact ANi parsed titles. Exact match only — no substring matching.",
@@ -522,6 +522,11 @@
       "tmdb_season": 2,
       "episode_offset": -12,
       "ani_category": "3371e6f4-c47e-500f-a534-8e26e9a3f4fd"
+    },
+    "不愉快的妖怪庵 續": {
+      "tmdb_id": 65956,
+      "tmdb_season": 2,
+      "ani_category": "c85f0046-c2a1-5f01-bba7-758f4321021d"
     }
   }
 }
