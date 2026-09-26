@@ -88,6 +88,19 @@ jsDelivr URL：
 - 新版本号和 jsDelivr URL
 - 任何需要人工关注的项目（如 TMDB 数据滞后）
 
+## 判断经验（实战补充）
+
+**区分「同一季的新集」与「新一季第 1 集」**（ANi 编号通常是全系列连续编号，如 Re:Zero S4 从 ep67 起）：
+
+1. 查 TMDB 剧集详情：`last_episode_to_air`（已播最后一集）与 `next_episode_to_air`（官方结构的下一集）。若后者 `season_number > 1`，新集属新一季。
+2. 看上一季末集是否标记 `episode_type: finale`（本季已完结），再看与当前集相隔是否 >30 天。
+3. TMDB 可能有占位杂项：如 S01E13 与 S02E01 同名同日、名称为「第 N 集」且无英文名/简介/剧照 → 以 `next_episode_to_air` 指向的条目为准。
+4. 必要时 WebSearch 核实官方播出信息：**地上波首播日** vs **流媒体提前配信日**。ANi 的 pubDate 常对应"提前一周配信"的那一周，而非地上波首播日。
+
+案例：`野生的大魔王出現了！` — ANi 2026-09-26 发布 ep13；官方第 2 期地上波 2026-10-03 首播、ABEMA/U-NEXT 提前一周（2026-09-26）配信，官方明确该集为「全系列第 13 话」即 S02E01 → `tmdb_season: 2, episode_offset: -12`。
+
+**不要调用 `_refresh_root_dirs()` 或 `force_refresh_all()`**：ANi open API 的根目录接口（`openani.an-i.workers.dev/`）已返回 404，调用会把 metadata 里的 `root_dirs` 覆盖为空，后续 `get_directory` 全部落到空缓存。若误操作，用 `git checkout -- ani_directory_cache.db` 还原。
+
 ## 关键设计
 
 - **confirmed.json**: 精确匹配（key = 完整 ANi 解析标题），无子串匹配
