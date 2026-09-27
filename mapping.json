@@ -1,6 +1,6 @@
 {
   "_metadata": {
-    "generated_at": "2026-09-27 04:04:48",
+    "generated_at": "2026-09-28 04:01:38",
     "tmdb_language": "zh-TW",
     "version": "5.0",
     "description": "Keys are exact ANi parsed titles. Exact match only — no substring matching.",
@@ -538,6 +538,11 @@
       "tmdb_season": 2,
       "episode_offset": -12,
       "ani_category": "2835ee8b-7d70-5ab7-8097-e2cb6ef58fd9"
+    },
+    "轉生貴族憑鑑定技能扭轉人生 第三季": {
+      "tmdb_id": 237150,
+      "tmdb_season": 1,
+      "ani_category": "d6290048-79f4-5771-9ad1-697e727271ba"
     }
   }
 }
