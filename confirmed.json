@@ -1,6 +1,6 @@
 {
   "_description": "Confirmed ANi→TMDB mappings. Keys are exact parsed ANi titles. Exact match only. Grows incrementally — only current and previously confirmed titles exist here.",
-  "_updated": "2026-09-28",
+  "_updated": "2026-10-01",
   "_category_support": "ANi RSS (2026-07+) includes a <category> UUID per item as a stable series identifier. When a mapping is confirmed for a title that carries a category, it is stored as 'ani_category' inside the entry. Lookup priority: category UUID → exact title. Older anime without category use title-only matching (legacy, fully backward compatible). Different seasons carry different UUIDs.",
   "mappings": {
     "Dr.STONE 新石紀 第四季": {
@@ -563,6 +563,12 @@
       "tmdb_season": 1,
       "ani_category": "d6290048-79f4-5771-9ad1-697e727271ba",
       "_note": "第三季=全系列第25話起. ANi連續編號(S1=ep1-12, S2=ep13-24, S3=ep25起). TMDB合併為單季S01共26ep, S01E25 air_date 2026-09-27 與 ANi ep25 pub_date 完全對齊 → offset 0. 官方: 第3期地上波2026-09-27首播(CBC/TBS Agaru Anime 28局), U-NEXT/dアニメ/Anime放題提前配信2026-09-28 00:30"
+    },
+    "轉生就是劍 第二季": {
+      "tmdb_id": 134667,
+      "tmdb_season": 2,
+      "ani_category": "e33c1b92-d4dc-573b-b485-82862619db5a",
+      "_note": "第2期, ANi ep01=TMDB S02E01 (浮遊島篇). 官方: 第2期地上波2026-10-07/08首播(TOKYO MX/ABC/BS朝日/AT-X), ABEMA地上波1週間先行配信自2026-09-30, 與ANi ep01 pub_date 2026-09-30 完全對齊. TMDB S01為12ep(ep12=finale 2022-12-21), ANi S1歷史目錄 ep1-12 與之對齊 → offset 0"
     }
   }
 }
