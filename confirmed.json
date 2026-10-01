@@ -1,6 +1,6 @@
 {
   "_description": "Confirmed ANi→TMDB mappings. Keys are exact parsed ANi titles. Exact match only. Grows incrementally — only current and previously confirmed titles exist here.",
-  "_updated": "2026-10-01",
+  "_updated": "2026-10-02",
   "_category_support": "ANi RSS (2026-07+) includes a <category> UUID per item as a stable series identifier. When a mapping is confirmed for a title that carries a category, it is stored as 'ani_category' inside the entry. Lookup priority: category UUID → exact title. Older anime without category use title-only matching (legacy, fully backward compatible). Different seasons carry different UUIDs.",
   "mappings": {
     "Dr.STONE 新石紀 第四季": {
@@ -569,6 +569,18 @@
       "tmdb_season": 2,
       "ani_category": "e33c1b92-d4dc-573b-b485-82862619db5a",
       "_note": "第2期, ANi ep01=TMDB S02E01 (浮遊島篇). 官方: 第2期地上波2026-10-07/08首播(TOKYO MX/ABC/BS朝日/AT-X), ABEMA地上波1週間先行配信自2026-09-30, 與ANi ep01 pub_date 2026-09-30 完全對齊. TMDB S01為12ep(ep12=finale 2022-12-21), ANi S1歷史目錄 ep1-12 與之對齊 → offset 0"
+    },
+    "FX 戰士久留美": {
+      "tmdb_id": 311842,
+      "tmdb_season": 1,
+      "ani_category": "270f2251-1ef0-53c0-a5e8-57d67af61a3c",
+      "_note": "新番S1. air_date完美对齐: ANi ep01=2026-10-01, TMDB S01E01=2026-10-01"
+    },
+    "黑化吧！聖女大人 第二季": {
+      "tmdb_id": 293124,
+      "tmdb_season": 2,
+      "ani_category": "269208fb-3a7a-5604-ad36-97cf5f29be27",
+      "_note": "第2季, ANi ep01=TMDB S02E01. TMDB S1為12ep(ep12=finale 2025-09-25), ANi S1歷史目錄 ep1-12 與之對齊 → offset 0. ANi ep01 pub 2026-10-01 較 TMDB S02E01 air_date 2026-10-02 早一天, 符合流媒體提前配信先例"
     }
   }
 }
