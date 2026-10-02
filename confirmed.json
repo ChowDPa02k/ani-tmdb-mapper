@@ -1,6 +1,6 @@
 {
   "_description": "Confirmed ANi→TMDB mappings. Keys are exact parsed ANi titles. Exact match only. Grows incrementally — only current and previously confirmed titles exist here.",
-  "_updated": "2026-10-02",
+  "_updated": "2026-10-03",
   "_category_support": "ANi RSS (2026-07+) includes a <category> UUID per item as a stable series identifier. When a mapping is confirmed for a title that carries a category, it is stored as 'ani_category' inside the entry. Lookup priority: category UUID → exact title. Older anime without category use title-only matching (legacy, fully backward compatible). Different seasons carry different UUIDs.",
   "mappings": {
     "Dr.STONE 新石紀 第四季": {
@@ -581,6 +581,12 @@
       "tmdb_season": 2,
       "ani_category": "269208fb-3a7a-5604-ad36-97cf5f29be27",
       "_note": "第2季, ANi ep01=TMDB S02E01. TMDB S1為12ep(ep12=finale 2025-09-25), ANi S1歷史目錄 ep1-12 與之對齊 → offset 0. ANi ep01 pub 2026-10-01 較 TMDB S02E01 air_date 2026-10-02 早一天, 符合流媒體提前配信先例"
+    },
+    "桃源暗鬼：日光·華嚴瀑布篇": {
+      "tmdb_id": 253811,
+      "tmdb_season": 2,
+      "ani_category": "81c8aecc-ccb6-5cec-8790-884492ff123f",
+      "_note": "第2季. TMDB S02E01 (Let the Training Begin) air_date 2026-10-02 與 ANi 正式第1話 (category 81c8aecc, pub 2026-10-01/02) 對齊, offset 0. TMDB S1=24ep已完結(ep24=finale 2025-12-26), ANi S1歷史目錄 ep1-24 對齊. 備註: Baha 開播前兩部總集篇『特別篇』掛獨立 category ca923428-86c4-4604-8ade-5a00edb0b5c5, 不屬於本條目"
     }
   }
 }
