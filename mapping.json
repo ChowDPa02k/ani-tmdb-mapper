@@ -1,6 +1,6 @@
 {
   "_metadata": {
-    "generated_at": "2026-10-03 04:03:48",
+    "generated_at": "2026-10-04 04:03:30",
     "tmdb_language": "zh-TW",
     "version": "5.0",
     "description": "Keys are exact ANi parsed titles. Exact match only — no substring matching.",
@@ -563,6 +563,42 @@
       "tmdb_id": 253811,
       "tmdb_season": 2,
       "ani_category": "81c8aecc-ccb6-5cec-8790-884492ff123f"
+    },
+    "KERORO 軍曹☆": {
+      "tmdb_id": 308977,
+      "tmdb_season": 1,
+      "ani_category": "51b1fedf-1722-59f9-b76e-cb0b1673b7a1"
+    },
+    "The Anime「幻想水滸傳」": {
+      "tmdb_id": 285710,
+      "tmdb_season": 1,
+      "ani_category": "b1c4503b-1f7a-53e4-a8cd-512424625a30"
+    },
+    "用【循環利息】強制收回借出的魔力": {
+      "tmdb_id": 333622,
+      "tmdb_season": 1,
+      "ani_category": "d8497bbc-a44b-5cdd-af0a-fdc9835c2046"
+    },
+    "至高之力": {
+      "tmdb_id": 317259,
+      "tmdb_season": 1,
+      "ani_category": "8d9b3efc-a4b2-545a-81a8-4b9ee585154d"
+    },
+    "轉生後的大聖女，極力隱瞞聖女的身分": {
+      "tmdb_id": 285899,
+      "tmdb_season": 1,
+      "ani_category": "2e58b300-7b9e-52a5-a5e3-471320c207fc"
+    },
+    "魔法★探險家": {
+      "tmdb_id": 335194,
+      "tmdb_season": 1,
+      "ani_category": "1b425a1b-f7f3-591b-91cf-99c7e5f6d65e"
+    },
+    "黑色五葉草 Season 2": {
+      "tmdb_id": 73223,
+      "tmdb_season": 2,
+      "episode_offset": -170,
+      "ani_category": "fffece69-00ef-5dd1-901a-e8824deb0ae7"
     }
   }
 }
