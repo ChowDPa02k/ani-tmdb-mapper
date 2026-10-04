@@ -1,6 +1,6 @@
 {
   "_metadata": {
-    "generated_at": "2026-10-04 04:03:30",
+    "generated_at": "2026-10-05 04:03:14",
     "tmdb_language": "zh-TW",
     "version": "5.0",
     "description": "Keys are exact ANi parsed titles. Exact match only — no substring matching.",
@@ -599,6 +599,27 @@
       "tmdb_season": 2,
       "episode_offset": -170,
       "ani_category": "fffece69-00ef-5dd1-901a-e8824deb0ae7"
+    },
+    "一覺醒來就有了最強裝備跟太空船 決定以自家獨棟建築為目標當傭兵自由過活": {
+      "tmdb_id": 283692,
+      "tmdb_season": 1,
+      "ani_category": "1c99baf2-f7cd-55c0-bd2a-2b0890613fd9"
+    },
+    "大叔喜歡可愛小玩意": {
+      "tmdb_id": 330505,
+      "tmdb_season": 1,
+      "ani_category": "ad4dfc28-f894-5055-ab8c-19faba79005d"
+    },
+    "極致軟弱千金小姐，不小心答應了精明未婚夫的賭局": {
+      "tmdb_id": 303060,
+      "tmdb_season": 1,
+      "ani_category": "d2fceb08-7b79-5934-ae87-4513bfcc3f44"
+    },
+    "殺手旅店": {
+      "tmdb_id": 276288,
+      "tmdb_season": 2,
+      "episode_offset": -13,
+      "ani_category": "9d2b3340-0161-5e3a-a640-f53357949823"
     }
   }
 }
