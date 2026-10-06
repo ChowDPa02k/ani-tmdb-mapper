@@ -1,6 +1,6 @@
 {
   "_metadata": {
-    "generated_at": "2026-10-06 04:03:34",
+    "generated_at": "2026-10-07 04:04:57",
     "tmdb_language": "zh-TW",
     "version": "5.0",
     "description": "Keys are exact ANi parsed titles. Exact match only — no substring matching.",
@@ -650,6 +650,31 @@
       "tmdb_id": 337277,
       "tmdb_season": 1,
       "ani_category": "9b944329-690f-5065-903b-c49811389c37"
+    },
+    "亂世千金倪亞．利斯頓 轉生為嬌弱千金的弒神武人華麗無雙錄": {
+      "tmdb_id": 312850,
+      "tmdb_season": 1,
+      "ani_category": "7e05c5e4-6e4e-5901-9f9c-912a25d6c1ca"
+    },
+    "假面騎士 MY-TH": {
+      "tmdb_id": 318445,
+      "tmdb_season": 1,
+      "ani_category": "6c420ebb-71c5-5bb3-880b-ae88dade073a"
+    },
+    "冷淡的佐藤同學只對我撒嬌": {
+      "tmdb_id": 316891,
+      "tmdb_season": 1,
+      "ani_category": "bb650fe8-2c62-5668-8826-3d6e3de109cd"
+    },
+    "被放逐的作弊賦予魔術師享受隨心所欲的第二人生。": {
+      "tmdb_id": 313346,
+      "tmdb_season": 1,
+      "ani_category": "dca9e134-1045-502e-84c4-841ce99cb238"
+    },
+    "超巡！超條前輩": {
+      "tmdb_id": 327765,
+      "tmdb_season": 1,
+      "ani_category": "a4bf80ba-ee0c-5de8-adec-e83d27a73a0b"
     }
   }
 }

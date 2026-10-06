@@ -687,9 +687,40 @@
       "tmdb_season": 1,
       "ani_category": "9b944329-690f-5065-903b-c49811389c37",
       "_note": "新番S1. air_date对齐: ANi ep01=2026-10-05, TMDB S01E01=2026-10-06(ANi提前1天配信). TMDB S1=12ep(finale 2026-12-22)"
+    },
+    "亂世千金倪亞．利斯頓 轉生為嬌弱千金的弒神武人華麗無雙錄": {
+      "tmdb_id": 312850,
+      "tmdb_season": 1,
+      "ani_category": "7e05c5e4-6e4e-5901-9f9c-912a25d6c1ca",
+      "_note": "新番S1. air_date完美对齐: ANi ep01=2026-10-06, TMDB S01E01=2026-10-06. TMDB S1=26ep双季连续(ep25=finale 2027-03-23, ep26待定)"
+    },
+    "假面騎士 MY-TH": {
+      "tmdb_id": 318445,
+      "tmdb_season": 1,
+      "ani_category": "6c420ebb-71c5-5bb3-880b-ae88dade073a",
+      "_note": "6集短篇. Baha延迟约1个月上架: TMDB E01=2026-09-06播出, ANi ep01=2026-10-06上架, 编号1:1对应(offset 0). TMDB S1=6ep(finale 2026-10-11)"
+    },
+    "冷淡的佐藤同學只對我撒嬌": {
+      "tmdb_id": 316891,
+      "tmdb_season": 1,
+      "ani_category": "bb650fe8-2c62-5668-8826-3d6e3de109cd",
+      "_note": "新番S1. air_date完美对齐: ANi ep01=2026-10-06, TMDB S01E01=2026-10-06. TMDB S1=12ep(finale 2026-12-22)"
+    },
+    "被放逐的作弊賦予魔術師享受隨心所欲的第二人生。": {
+      "tmdb_id": 313346,
+      "tmdb_season": 1,
+      "ani_category": "dca9e134-1045-502e-84c4-841ce99cb238",
+      "_note": "新番S1. 脚本搜索时遇SSL错误漏命中, 人工重试定位. air_date对齐: ANi ep01=2026-10-06, TMDB S01E01=2026-10-07(ANi提前1天配信). TMDB S1=12ep(finale 2026-12-23)"
+    },
+    "超巡！超條前輩": {
+      "tmdb_id": 327765,
+      "tmdb_season": 1,
+      "ani_category": "a4bf80ba-ee0c-5de8-adec-e83d27a73a0b",
+      "_note": "新番S1. 脚本搜索时遇SSL错误漏命中, 人工重试定位. air_date完美对齐: ANi ep01=2026-10-06, TMDB S01E01=2026-10-06. TMDB S1=12ep(finale 2026-12-22)"
     }
   },
   "_skipped_movies": [
+    "來自遠方",
     "來自遠方",
     "來自遠方"
   ]
