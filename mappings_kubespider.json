@@ -95,6 +95,10 @@
     "殺手旅店": {
       "season": 2,
       "reserve_keywords": "殺手旅店"
+    },
+    "新網球王子 U-17 WORLD CUP 世界盃決賽成員決定戰": {
+      "season": 3,
+      "reserve_keywords": "新網球王子 U-17 WORLD CUP 世界盃決賽成員決定戰"
     }
   },
   "season_episode_adjustment": {
@@ -133,6 +137,9 @@
     },
     "殺手旅店": {
       "2": -13
+    },
+    "重生者的魔法一定要特別": {
+      "2": -12
     }
   }
 }

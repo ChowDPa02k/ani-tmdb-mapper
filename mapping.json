@@ -1,6 +1,6 @@
 {
   "_metadata": {
-    "generated_at": "2026-10-07 04:04:57",
+    "generated_at": "2026-10-08 04:06:29",
     "tmdb_language": "zh-TW",
     "version": "5.0",
     "description": "Keys are exact ANi parsed titles. Exact match only — no substring matching.",
@@ -675,6 +675,37 @@
       "tmdb_id": 327765,
       "tmdb_season": 1,
       "ani_category": "a4bf80ba-ee0c-5de8-adec-e83d27a73a0b"
+    },
+    "世界最強的魔女，就此開始": {
+      "tmdb_id": 321518,
+      "tmdb_season": 1,
+      "ani_category": "02188c0d-be16-527e-8366-93321371432c"
+    },
+    "佐佐木與文鳥小嗶 Season 2": {
+      "tmdb_id": 206630,
+      "tmdb_season": 2,
+      "ani_category": "c5487cf4-8fc1-5984-a794-e5014dcdea63"
+    },
+    "偵探已經，死了。Season 2": {
+      "tmdb_id": 117061,
+      "tmdb_season": 2,
+      "ani_category": "93966769-a6c3-53e5-9b87-8bec25f1d6bb"
+    },
+    "新網球王子 U-17 WORLD CUP 世界盃決賽成員決定戰": {
+      "tmdb_id": 205493,
+      "tmdb_season": 3,
+      "ani_category": "13ca48b1-68e3-5e9a-ac07-db974599766f"
+    },
+    "獸王武神丹帝拜恩": {
+      "tmdb_id": 323937,
+      "tmdb_season": 1,
+      "ani_category": "cd5fd08e-23d5-5ecc-abf3-60b63dd513ec"
+    },
+    "重生者的魔法一定要特別 第二季": {
+      "tmdb_id": 230050,
+      "tmdb_season": 2,
+      "ani_category": "4f123aac-c02c-5fca-a206-3096a2147886",
+      "episode_offset": -12
     }
   }
 }
