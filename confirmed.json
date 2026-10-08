@@ -754,6 +754,24 @@
       "ani_category": "4f123aac-c02c-5fca-a206-3096a2147886",
       "_note": "S2续季. ANi全系列连续编号, S1=12ep(ani_history ep1-12)+S2=12ep, ANi S2 ep13 = TMDB S02E01 -> tmdb_season:2, episode_offset:-12. air_date完美对齐: ANi ep13=2026-10-07, TMDB S02E01=2026-10-08(ANi提前1天配信)",
       "episode_offset": -12
+    },
+    "冰劍的魔術師將要統一世界 2": {
+      "tmdb_id": 200777,
+      "tmdb_season": 2,
+      "ani_category": "dfe67def-b8a8-523f-953a-3d98f085ab70",
+      "_note": "S2续季. ANi S2独立从ep1编号(S1=12ep已完结) -> tmdb_season:2, offset 0. air_date对齐: ANi ep01=2026-10-08, TMDB S02E01=2026-10-09(ANi提前1天配信). TMDB S2=12ep(finale 2026-12-25)"
+    },
+    "鐵旅！meet with 鐵道少女": {
+      "tmdb_id": 302020,
+      "tmdb_season": 1,
+      "ani_category": "c7432c93-24b9-5cdf-9b9c-3086a56cd63c",
+      "_note": "新番S1. ANi标题为Baha中文译名, TMDB原名为てつりょー！meet with 鉄道むすめ. air_date对齐: ANi ep01=2026-10-08, TMDB S01E01=2026-10-09(ANi提前1天配信). TMDB S1=12ep(finale 2026-12-25)"
+    },
+    "魔法騎士雷阿斯": {
+      "tmdb_id": 303272,
+      "tmdb_season": 1,
+      "ani_category": "8b2e9ff3-5271-579d-86a6-15be5097e3ef",
+      "_note": "2026年30周年纪念重制版(E&H production, 连续两季共21ep). 注意: 脚本搜索误命中1994旧版TMDB 34158, 已手工改指重制版独立条目303272. air_date完美对齐: ANi ep01=2026-10-07, TMDB S01E01=2026-10-07"
     }
   },
   "_skipped_movies": [
