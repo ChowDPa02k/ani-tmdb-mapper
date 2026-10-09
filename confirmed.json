@@ -1,6 +1,6 @@
 {
   "_description": "Confirmed ANi→TMDB mappings. Keys are exact parsed ANi titles. Exact match only. Grows incrementally — only current and previously confirmed titles exist here.",
-  "_updated": "2026-10-06",
+  "_updated": "2026-10-10",
   "_category_support": "ANi RSS (2026-07+) includes a <category> UUID per item as a stable series identifier. When a mapping is confirmed for a title that carries a category, it is stored as 'ani_category' inside the entry. Lookup priority: category UUID → exact title. Older anime without category use title-only matching (legacy, fully backward compatible). Different seasons carry different UUIDs.",
   "mappings": {
     "Dr.STONE 新石紀 第四季": {
@@ -772,6 +772,18 @@
       "tmdb_season": 1,
       "ani_category": "8b2e9ff3-5271-579d-86a6-15be5097e3ef",
       "_note": "2026年30周年纪念重制版(E&H production, 连续两季共21ep). 注意: 脚本搜索误命中1994旧版TMDB 34158, 已手工改指重制版独立条目303272. air_date完美对齐: ANi ep01=2026-10-07, TMDB S01E01=2026-10-07"
+    },
+    "暗部共生少女": {
+      "tmdb_id": 284580,
+      "tmdb_season": 1,
+      "ani_category": "940d642f-e867-5cb0-a52c-4d4057e12177",
+      "_note": "新番S1. 魔禁外传ITEM暗部小队动画化(TMDB E01=ITEM, E02=Saiai Kinuhata - Newcomer, 绢旗最爱为ITEM成员). air_date完美对齐: ANi ep01=2026-10-09, TMDB S01E01=2026-10-09. TMDB S1周更中(ep_count已列至E02)"
+    },
+    "螢火蟲的出嫁": {
+      "tmdb_id": 320909,
+      "tmdb_season": 1,
+      "ani_category": "97b26170-0c78-5253-b2db-8aa738bb64c5",
+      "_note": "新番S1. ANi标题为Baha中文译名, TMDB原名为ホタルの嫁入り(Firefly Wedding), david production制作. air_date完美对齐: ANi ep01=2026-10-09, TMDB S01E01=2026-10-09(富士台首播日). TMDB S1=12ep(finale 2026-12-25)"
     }
   },
   "_skipped_movies": [
