@@ -1,6 +1,6 @@
 {
   "_metadata": {
-    "generated_at": "2026-10-12 04:01:45",
+    "generated_at": "2026-10-14 04:04:48",
     "tmdb_language": "zh-TW",
     "version": "5.0",
     "description": "Keys are exact ANi parsed titles. Exact match only — no substring matching.",
@@ -741,6 +741,16 @@
       "tmdb_id": 288588,
       "tmdb_season": 1,
       "ani_category": "4f7a6dc8-0534-5cd8-ac5b-c15a865d263a"
+    },
+    "彈珠汽水瓶裡的千歲同學": {
+      "tmdb_id": 261343,
+      "tmdb_season": 1,
+      "ani_category": "212dca84-1652-5580-a89a-9016676e842f"
+    },
+    "闇機 DARK MACHINE": {
+      "tmdb_id": 306565,
+      "tmdb_season": 1,
+      "ani_category": "3ce58af8-0b07-5270-bee4-031d79d680e8"
     }
   }
 }
