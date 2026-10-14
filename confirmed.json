@@ -808,6 +808,12 @@
       "tmdb_season": 1,
       "ani_category": "3ce58af8-0b07-5270-bee4-031d79d680e8",
       "_note": "TMDB名稱: DARK MACHINE THE ANIMATION (富士台 2026-10-13 深夜檔開播, 全11集). TMDB S01E01=2026-10-14 (美西時區記日), ANi 提前 1 天上架. Baha 中文異名致腳本搜索失敗, 已手工定位"
+    },
+    "來自遠方": {
+      "tmdb_id": 329096,
+      "tmdb_season": 1,
+      "ani_category": "918aeccb-1332-5720-a779-55a8a13d1845",
+      "_note": "冰川京子經典漫畫首次TV動畫化(Studio DEEN, 35週年紀念, TOKYO MX). TMDB S1=24ep(finale 2027-03-15), S01E01 air_date 2026-10-05 vs ANi ep01 pub 2026-10-04 (提前1天配信), S01E02 air 2026-10-12 vs ANi ep02 pub 2026-10-11 對齊. offset 0. 歷史上曾被腳本 exact movie match 誤跳過6次, 2026-10-14 確認為正式週更TV動畫, 解除誤判"
     }
   },
   "_skipped_movies": [
